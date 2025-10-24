@@ -56,7 +56,7 @@ const ViaItem = ({
     <motion.div
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-8 md:gap-12 my-16",
+        "flex flex-col md:flex-row items-center gap-8 md:gap-12 my-24 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
@@ -77,6 +77,46 @@ const ViaItem = ({
   );
 };
 
+const WindingRoad = ({ progress }: { progress: any }) => {
+  const pathLength = useTransform(progress, [0, 1], [0, 1]);
+
+  return (
+    <svg
+      width="202"
+      height="1808"
+      viewBox="0 0 202 1808"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-auto"
+    >
+      <motion.path
+        d="M101 0V1808"
+        stroke="hsl(var(--secondary))"
+        strokeOpacity="0.3"
+        strokeWidth="100"
+        pathLength="1"
+        style={{ pathLength: pathLength }}
+      />
+      <motion.path
+        d="M192 1C192 1 10 173 10 451C10 729 192 889 192 1167C192 1445 10 1593 10 1807"
+        stroke="hsl(var(--border))"
+        strokeWidth="4"
+        strokeLinecap="round"
+        pathLength="1"
+        style={{ pathLength: pathLength }}
+      />
+       <motion.path
+        d="M202 1C202 1 20 173 20 451C20 729 202 889 202 1167C202 1445 20 1593 20 1807"
+        stroke="hsl(var(--border))"
+        strokeWidth="4"
+        strokeLinecap="round"
+        pathLength="1"
+        style={{ pathLength: pathLength }}
+      />
+    </svg>
+  );
+};
+
 export function ViasDeConexion() {
   const targetRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -86,9 +126,9 @@ export function ViasDeConexion() {
 
   return (
     <section id="vias-de-conexion" className="relative py-20 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-full bg-secondary/30 rounded-full" />
+       <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
-        <h2 className="text-4xl font-bold text-primary mb-16 text-center">
+        <h2 className="text-4xl font-bold text-primary mb-16 text-center relative z-10">
           Vías de Conexión
         </h2>
         {viasData.map((via, index) => {
