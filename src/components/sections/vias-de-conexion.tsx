@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -74,10 +75,10 @@ const ViaItem = ({
       )}
     >
         <div className={cn(
-            "flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl bg-background p-4 rounded-lg",
+            "flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl bg-background md:bg-transparent p-4 rounded-lg md:p-0",
             isEven ? "md:flex-row" : "md:flex-row-reverse"
         )}>
-            <div className="w-full md:w-1/2">
+            <div className="relative w-full md:w-1/2 p-4 md:p-6 md:bg-gradient-to-r from-transparent via-background/80 to-background">
                 <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
                 <p className="text-foreground/80 text-base">{renderDescription()}</p>
             </div>
