@@ -56,7 +56,7 @@ const ViaItem = ({
     <motion.div
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-8 md:gap-12 my-24 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-8 md:gap-12 my-16 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
@@ -134,10 +134,8 @@ export function ViasDeConexion() {
         {viasData.map((via, index) => {
           const totalItems = viasData.length;
           const segment = 1 / totalItems;
-          // Adjust the start and end points to make the animation more responsive.
-          // The animation for an item will now happen in a smaller scroll window.
-          const start = index * segment;
-          const end = start + segment * 0.8; // Use 80% of the segment for the animation
+          const start = index * segment + (segment * 0.1);
+          const end = start + (segment * 0.6);
           return (
             <ViaItem
               key={via.title}
