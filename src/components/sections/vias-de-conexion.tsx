@@ -1,9 +1,10 @@
 
+
 "use client";
 
 import * as React from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
@@ -52,8 +53,8 @@ const ViaItem = ({
     offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
-  const y = useTransform(scrollYProgress, [0.6, 0.8], [50, 0]);
+  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+  const y = useTransform(scrollYProgress, [0.4, 0.6], [30, 0]);
 
   return (
     <motion.div
@@ -65,8 +66,8 @@ const ViaItem = ({
       )}
     >
       <div className="w-full md:w-1/2">
-        <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
-        <p className="text-foreground/80 text-sm">{description}</p>
+        <h3 className="text-lg font-bold text-primary mb-2">{title}</h3>
+        <p className="text-foreground/80 text-xs">{description}</p>
       </div>
       <div className="w-full md:w-1/2 relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
         <Image
@@ -74,7 +75,7 @@ const ViaItem = ({
           alt={image.description}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes="(max-width: 768px) 100vw, 33vw"
           data-ai-hint={image.imageHint}
         />
       </div>
@@ -82,95 +83,109 @@ const ViaItem = ({
   );
 };
 
+interface SleeperProps {
+    x: number;
+    y: number;
+    angle: number;
+    distance: number;
+    totalLength: number;
+    progress: MotionValue<number>;
+}
+
+const Sleeper: React.FC<SleeperProps> = ({ x, y, angle, distance, totalLength, progress }) => {
+    const sleeperProgress = distance / totalLength;
+    const opacity = useTransform(progress, [sleeperProgress - 0.1, sleeperProgress], [0, 1]);
+
+    return (
+        <motion.line
+            x1="-15"
+            y1="0"
+            x2="15"
+            y2="0"
+            transform={`translate(${x} ${y}) rotate(${angle})`}
+            style={{ opacity }}
+        />
+    );
+};
+
+
 const WindingRoad = ({ progress }: { progress: any }) => {
   const pathLength = useTransform(progress, [0, 1], [0, 1]);
   const pathRef = React.useRef<SVGPathElement>(null);
 
   const [sleepers, setSleepers] = React.useState<any[]>([]);
+  const [totalLength, setTotalLength] = React.useState(0);
 
   React.useLayoutEffect(() => {
-    // This effect can only run in the browser
-    if (typeof window === "undefined" || !pathRef.current) return;
-    
-    const path = pathRef.current;
-    const totalLength = path.getTotalLength();
-    if (totalLength === 0) return;
+    if (pathRef.current) {
+      const path = pathRef.current;
+      const length = path.getTotalLength();
+      setTotalLength(length);
+      if (length === 0) return;
 
-    const sleeperCount = 50; 
-    const positions = [];
+      const sleeperCount = 40; 
+      const positions = [];
 
-    for (let i = 0; i < sleeperCount; i++) {
-      const distance = (i / (sleeperCount - 1)) * totalLength;
-      const point = path.getPointAtLength(distance);
-      // Get a point slightly ahead to calculate the angle
-      const nextPoint = path.getPointAtLength(Math.min(distance + 1, totalLength));
-      const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
-      
-      positions.push({ x: point.x, y: point.y, angle: angle, distance });
+      for (let i = 0; i < sleeperCount; i++) {
+        const distance = (i / (sleeperCount - 1)) * length;
+        const point = path.getPointAtLength(distance);
+        const nextPoint = path.getPointAtLength(Math.min(distance + 1, length));
+        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+        
+        positions.push({ x: point.x, y: point.y, angle: angle, distance });
+      }
+      setSleepers(positions);
     }
-    setSleepers(positions);
-  }, [pathRef.current]);
+  }, []);
 
   return (
     <svg
-      width="142"
+      width="102"
       height="1808"
-      viewBox="0 0 142 1808"
+      viewBox="0 0 102 1808"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-auto"
     >
-      <motion.path
-        d="M71 0V1808"
-        stroke="hsl(var(--secondary))"
-        strokeOpacity="0.1"
-        strokeWidth="60"
-        pathLength="1"
-        style={{ pathLength: pathLength }}
-      />
-      
       <defs>
         <path
             id="rail-path"
             ref={pathRef}
-            d="M71 1 C71 1, 1 173, 1 451 C1 729, 141 889, 141 1167 C141 1445, 71 1593, 71 1807"
+            d="M51 1 C51 1, 1 273, 1 551 C1 829, 101 989, 101 1267 C101 1545, 51 1693, 51 1807"
             fill="transparent"
             stroke="none"
         />
        </defs>
       
       <motion.path
-        d="M61 1 C61 1, -9 173, -9 451 C-9 729, 131 889, 131 1167 C131 1445, 61 1593, 61 1807"
+        d="M41 1 C41 1, -9 273, -9 551 C-9 829, 91 989, 91 1267 C91 1545, 41 1693, 41 1807"
         stroke="hsl(var(--border))"
-        strokeWidth="4"
+        strokeWidth="2"
         strokeLinecap="round"
         pathLength="1"
         style={{ pathLength: pathLength }}
       />
        <motion.path
-        d="M81 1 C81 1, 21 173, 21 451 C21 729, 151 889, 151 1167 C151 1445, 81 1593, 81 1807"
+        d="M61 1 C61 1, 11 273, 11 551 C11 829, 111 989, 111 1267 C111 1545, 61 1693, 61 1807"
         stroke="hsl(var(--border))"
-        strokeWidth="4"
+        strokeWidth="2"
         strokeLinecap="round"
         pathLength="1"
         style={{ pathLength: pathLength }}
       />
-
-      <g stroke="hsl(var(--border))" strokeWidth="4" strokeLinecap="round">
-        {sleepers.map((sleeper, i) => {
-          const sleeperProgress = sleeper.distance / (pathRef.current?.getTotalLength() || 1);
-          const opacity = useTransform(progress, [sleeperProgress - 0.2, sleeperProgress], [0, 1]);
-
-          return (
-            <motion.line
-              key={i}
-              x1="-20" y1="0"
-              x2="20" y2="0"
-              transform={`translate(${sleeper.x} ${sleeper.y}) rotate(${sleeper.angle})`}
-              style={{ opacity }}
+      
+      <g stroke="hsl(var(--border))" strokeWidth="2" strokeLinecap="round">
+        {sleepers.map((sleeper, i) => (
+             <Sleeper
+                key={i}
+                x={sleeper.x}
+                y={sleeper.y}
+                angle={sleeper.angle}
+                distance={sleeper.distance}
+                totalLength={totalLength}
+                progress={progress}
             />
-          );
-        })}
+        ))}
       </g>
     </svg>
   );
@@ -188,7 +203,7 @@ export function ViasDeConexion() {
     <section id="vias-de-conexion" className="relative py-12 md:py-16 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
-        <h2 className="text-xl md:text-2xl font-bold text-primary mb-10 text-center relative z-10">
+        <h2 className="text-xl md:text-xl font-bold text-primary mb-10 text-center relative z-10">
           Vías de Conexión
         </h2>
         <div className="flex flex-col gap-8">
