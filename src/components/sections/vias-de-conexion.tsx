@@ -132,7 +132,7 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         const nextPoint = path.getPointAtLength(Math.min(distance + 1, length));
         const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
         
-        positions.push({ x: point.x, y: point.y, angle: angle, distance });
+        positions.push({ x: point.x, y: point.y, angle: angle + 90, distance });
       }
       setSleepers(positions);
     }
