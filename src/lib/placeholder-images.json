@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-1",
+      "description": "A group of people collaborating happily in a community.",
+      "imageUrl": "https://images.unsplash.com/photo-1760895155589-1c5c2e8b02a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29tbXVuaXR5JTIwZ2F0aGVyaW5nfGVufDB8fHx8MTc2MTMxNzM2NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "community gathering"
+    },
+    {
+      "id": "hero-2",
+      "description": "A person extending a helping hand to another.",
+      "imageUrl": "https://images.unsplash.com/photo-1651372381086-9861c9c81db5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxoZWxwaW5nJTIwaGFuZHxlbnwwfHx8fDE3NjEyOTU3NTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "helping hand"
+    },
+    {
+      "id": "hero-3",
+      "description": "A beautiful sunrise over a Spanish landscape, symbolizing hope and new beginnings.",
+      "imageUrl": "https://images.unsplash.com/photo-1660765908340-1140f9579668?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzcGFpbiUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjEzMTk1Njl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "spain landscape"
+    }
+  ]
 }
