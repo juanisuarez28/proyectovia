@@ -132,7 +132,7 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
       const sleeperCount = 120;
       const positions: Omit<SleeperProps, 'progress' | 'pathRef'>[] = [];
 
-      for (let i = 0; i < sleeperCount; i++) {
+      for (let i = 0; i < sleeperCount -1; i++) {
         const distance = (i / (sleeperCount - 1)) * length;
         positions.push({ distance });
       }
