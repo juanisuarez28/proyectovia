@@ -52,20 +52,20 @@ const ViaItem = ({
     offset: ["start end", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.3, 0.6], [0.3, 1]);
-  const y = useTransform(scrollYProgress, [0.3, 0.6], [50, 0]);
+  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0.3, 1]);
+  const y = useTransform(scrollYProgress, [0.4, 0.6], [50, 0]);
 
   return (
     <motion.div
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-6 md:gap-10 my-8 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-4 md:gap-8 my-4 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
       <div className="w-full md:w-1/2">
-        <h3 className="text-xl md:text-xl font-bold text-primary mb-2">{title}</h3>
+        <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
         <p className="text-foreground/80 text-sm">{description}</p>
       </div>
       <div className="w-full md:w-1/2 relative aspect-video rounded-lg overflow-hidden shadow-lg">
@@ -84,28 +84,28 @@ const ViaItem = ({
 
 const WindingRoad = ({ progress }: { progress: any }) => {
   const pathLength = useTransform(progress, [0, 1], [0, 1]);
-
   const pathRef = React.useRef<SVGPathElement>(null);
 
   const sleepers = React.useMemo(() => {
-    if (!pathRef.current) return [];
+    // This effect can only run in the browser
+    if (typeof window === "undefined" || !pathRef.current) return [];
     
     const path = pathRef.current;
     const totalLength = path.getTotalLength();
-    const sleeperCount = 60;
-    const sleeperWidth = 180;
+    const sleeperCount = 50; 
     const positions = [];
 
     for (let i = 0; i < sleeperCount; i++) {
-        const distance = (i / (sleeperCount - 1)) * totalLength;
-        const point = path.getPointAtLength(distance);
-        const nextPoint = path.getPointAtLength(Math.min(distance + 1, totalLength));
-        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
-        positions.push({ x: point.x, y: point.y, angle: angle - 90, distance });
+      const distance = (i / (sleeperCount - 1)) * totalLength;
+      const point = path.getPointAtLength(distance);
+      // Get a point slightly ahead to calculate the angle
+      const nextPoint = path.getPointAtLength(Math.min(distance + 1, totalLength));
+      const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+      
+      positions.push({ x: point.x, y: point.y, angle: angle, distance });
     }
     return positions;
-
-  }, [pathRef.current]);
+  }, [pathRef.current]); // Dependency on pathRef.current ensures this recalculates when the ref is set
 
   return (
     <svg
@@ -125,9 +125,21 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         style={{ pathLength: pathLength }}
       />
       
+      {/* Helper path for measurements - centered between rails */}
+       <defs>
+        <path
+            id="rail-path"
+            ref={pathRef}
+            d="M101 1C101 1 101 173 101 451C101 729 101 889 101 1167C101 1445 101 1593 101 1807"
+            transform="translate(0, 0) scale(1,1)"
+            fill="transparent"
+            stroke="none"
+        />
+       </defs>
+      
       {/* Rails */}
       <motion.path
-        d="M192 1C192 1 10 173 10 451C10 729 192 889 192 1167C192 1445 10 1593 10 1807"
+        d="M10 1C10 1 192 173 192 451C192 729 10 889 10 1167C10 1445 192 1593 192 1807"
         stroke="hsl(var(--border))"
         strokeWidth="4"
         strokeLinecap="round"
@@ -135,7 +147,7 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         style={{ pathLength: pathLength }}
       />
        <motion.path
-        d="M202 1C202 1 20 173 20 451C20 729 202 889 202 1167C202 1445 20 1593 20 1807"
+        d="M20 1C20 1 202 173 202 451C202 729 20 889 20 1167C20 1445 202 1593 202 1807"
         stroke="hsl(var(--border))"
         strokeWidth="4"
         strokeLinecap="round"
@@ -143,28 +155,18 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         style={{ pathLength: pathLength }}
       />
 
-      {/* Helper path for measurements */}
-      <defs>
-        <path
-            id="rail-path"
-            ref={pathRef}
-            d="M197 1C197 1 15 173 15 451C15 729 197 889 197 1167C197 1445 15 1593 15 1807"
-            fill="transparent"
-            stroke="none"
-        />
-      </defs>
-      
       {/* Sleepers */}
       <g stroke="hsl(var(--border))" strokeWidth="4" strokeLinecap="round">
         {sleepers.map((sleeper, i) => {
-          const sleeperProgress = useTransform(progress, [0, 1], [0, sleeper.distance]);
-          const opacity = useTransform(sleeperProgress, [sleeper.distance - 1, sleeper.distance], [0, 1]);
+          // Animate opacity based on overall path progress
+          const sleeperProgress = (i + 1) / sleepers.length;
+          const opacity = useTransform(progress, [sleeperProgress - 0.1, sleeperProgress], [0, 1]);
 
           return (
             <motion.line
               key={i}
-              x1={-90} y1={0}
-              x2={90} y2={0}
+              x1="-96" y1="0"
+              x2="96" y2="0"
               transform={`translate(${sleeper.x} ${sleeper.y}) rotate(${sleeper.angle})`}
               style={{ opacity }}
             />
@@ -174,6 +176,7 @@ const WindingRoad = ({ progress }: { progress: any }) => {
     </svg>
   );
 };
+
 
 export function ViasDeConexion() {
   const targetRef = React.useRef<HTMLDivElement>(null);
@@ -189,7 +192,7 @@ export function ViasDeConexion() {
         <h2 className="text-xl md:text-2xl font-bold text-primary mb-10 text-center relative z-10">
           Vías de Conexión
         </h2>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-8">
             {viasData.map((via, index) => (
                 <ViaItem
                 key={via.title}
