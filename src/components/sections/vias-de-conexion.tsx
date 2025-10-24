@@ -74,7 +74,7 @@ const ViaItem = ({
       )}
     >
         <div className={cn(
-            "flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl",
+            "flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl bg-background p-4 rounded-lg",
             isEven ? "md:flex-row" : "md:flex-row-reverse"
         )}>
             <div className="w-full md:w-1/2">
