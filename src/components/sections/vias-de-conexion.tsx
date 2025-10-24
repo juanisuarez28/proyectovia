@@ -50,26 +50,26 @@ const ViaItem = ({
   const ref = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end center"],
+    offset: ["start end", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0.4, 1]);
-  const y = useTransform(scrollYProgress, [0.4, 0.6], [30, 0]);
+  const opacity = useTransform(scrollYProgress, [0.25, 0.5], [0.4, 1]);
+  const y = useTransform(scrollYProgress, [0.25, 0.5], [30, 0]);
 
   return (
     <motion.div
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-2 md:gap-4 my-2 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-4 my-0 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
       <div className="w-full md:w-1/2">
-        <h3 className="text-lg font-bold text-primary mb-2">{title}</h3>
-        <p className="text-foreground/80 text-xs">{description}</p>
+        <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
+        <p className="text-foreground/80 text-base">{description}</p>
       </div>
-      <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[300px] mx-auto">
+      <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[200px] mx-auto">
         <Image
           src={image.imageUrl}
           alt={image.description}
@@ -91,11 +91,12 @@ interface SleeperProps {
 }
 
 const Sleeper: React.FC<SleeperProps> = ({ pathRef, distance, progress, angle }) => {
-    const sleeperProgress = distance / (pathRef.current?.getTotalLength() || 1);
-    const opacity = useTransform(progress, [sleeperProgress - 0.2, sleeperProgress], [0, 1]);
-    const point = pathRef.current?.getPointAtLength(distance);
+    const path = pathRef.current;
+    if (!path) return null;
     
-    if (!point) return null;
+    const sleeperProgress = distance / path.getTotalLength();
+    const opacity = useTransform(progress, [sleeperProgress - 0.2, sleeperProgress], [0, 1]);
+    const point = path.getPointAtLength(distance);
 
     return (
         <motion.line
@@ -122,7 +123,7 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
       const length = path.getTotalLength();
       if (length === 0) return;
 
-      const sleeperCount = 320;
+      const sleeperCount = 240;
       const positions: Omit<SleeperProps, 'progress' | 'pathRef'>[] = [];
 
       for (let i = 0; i < sleeperCount; i++) {
@@ -141,9 +142,9 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
 
   return (
     <svg
-      width="102"
-      height="1808"
-      viewBox="-10 -10 122 1828"
+      width="100%"
+      height="100%"
+      viewBox="-40 -10 181 1828"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-auto"
@@ -203,7 +204,7 @@ export function ViasDeConexion() {
         <h2 className="text-xl md:text-xl font-bold text-primary mb-8 text-center relative z-10">
           Vías de Conexión
         </h2>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
             {viasData.map((via, index) => (
                 <ViaItem
                 key={via.title}
