@@ -24,7 +24,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <section className="relative py-20 container text-center overflow-hidden">
+        <section className="relative py-20 container text-center">
           <WavyLine />
           <div className="relative z-10">
             <h2 className="text-2xl md:text-3xl font-bold text-primary mb-6">Viajemos juntos por esta vía</h2>
