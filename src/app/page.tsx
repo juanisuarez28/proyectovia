@@ -3,21 +3,6 @@ import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/sections/hero";
 import { ViasDeConexion } from "@/components/sections/vias-de-conexion";
 
-const WavyLine = () => (
-  <svg 
-    viewBox="0 0 1000 200"
-    preserveAspectRatio="none"
-    className="absolute top-[85vh] left-1/2 -translate-x-1/2 w-[200vw] h-[40vh] -z-10"
-    stroke="#acd7e5"
-    strokeWidth="35"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M -100 150 Q 250 300 500 150 T 1100 150" />
-  </svg>
-);
-
 
 export default function Home() {
   return (
@@ -53,7 +38,6 @@ export default function Home() {
           <section id="colabora" className="min-h-screen py-20 container" />
           <section id="contacto" className="min-h-screen py-20 container" />
         </main>
-        <WavyLine />
       </div>
     </div>
   );
