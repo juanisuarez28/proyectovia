@@ -13,14 +13,14 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-base space-y-4 text-foreground/80">
             <p>
               Cada vida es un viaje, una vía por la que transitar.
-              Jesús nos invita a caminar junto a Él y a sumarnos a su vía.
+              <strong className="font-bold text-primary">Jesús</strong> nos invita a caminar junto a Él y a sumarnos a su vía.
               Él afirmó que es el camino que nos conduce a un buen destino.
             </p>
             <p>
-              La invitación de Jesús no es a un evento aislado, sino a un proyecto de largo recorrido: un proceso de aprendizaje, de transformación y de vida compartida con otros.
+              La invitación de <strong className="font-bold text-primary">Jesús</strong> no es a un evento aislado, sino a un proyecto de largo recorrido: un proceso de aprendizaje, de transformación y de vida compartida con otros.
             </p>
             <p>
-              En <strong className="font-bold text-primary">Proyecto Vía</strong> existimos para alentar a otros a sumarse a la vía de Jesús, y para acompañar y animar a quienes ya se han embarcado en este camino.
+              En <strong className="font-bold text-primary">Proyecto Vía</strong> existimos para alentar a otros a sumarse a la vía de <strong className="font-bold text-primary">Jesús</strong>, y para acompañar y animar a quienes ya se han embarcado en este camino.
             </p>
           </div>
         </section>

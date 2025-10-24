@@ -54,21 +54,32 @@ const ViaItem = ({
   const opacity = useTransform(scrollYProgress, [0.25, 0.5], [0.4, 1]);
   const y = useTransform(scrollYProgress, [0.25, 0.5], [30, 0]);
 
+  // Split description to apply styles
+  const renderDescription = () => {
+    const parts = description.split(/(Dios|Jesús|Proyecto Vía)/g);
+    return parts.map((part, index) => {
+      if (part === "Dios" || part === "Jesús" || part === "Proyecto Vía") {
+        return <strong key={index} className="font-bold text-primary">{part}</strong>;
+      }
+      return part;
+    });
+  };
+
   return (
     <motion.div
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex justify-center my-8 z-10 relative"
+        "flex justify-center my-12 z-10 relative"
       )}
     >
         <div className={cn(
-            "flex flex-col md:flex-row items-center gap-6 w-full max-w-3xl",
+            "flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl",
             isEven ? "md:flex-row" : "md:flex-row-reverse"
         )}>
             <div className="w-full md:w-1/2">
                 <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
-                <p className="text-foreground/80 text-base">{description}</p>
+                <p className="text-foreground/80 text-base">{renderDescription()}</p>
             </div>
             <div className="w-full md:w-1/2 flex justify-center">
                 <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[200px] w-full">
@@ -100,8 +111,19 @@ const Sleeper = ({ pathRef, distance, progress }: SleeperProps) => {
     const sleeperProgress = distance / path.getTotalLength();
     const opacity = useTransform(progress, [sleeperProgress - 0.1, sleeperProgress], [0, 1]);
     const point = path.getPointAtLength(distance);
-    const nextPoint = path.getPointAtLength(Math.min(distance + 1, path.getTotalLength()));
-    const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+    
+    let nextPoint;
+    if (distance + 1 > path.getTotalLength()) {
+        nextPoint = path.getPointAtLength(distance - 1);
+    } else {
+        nextPoint = path.getPointAtLength(distance + 1);
+    }
+    
+    let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+    if (distance + 1 > path.getTotalLength()) {
+      angle += 180; // Correct angle for the last sleeper
+    }
+
 
     return (
         <motion.line
@@ -129,10 +151,10 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
       const length = path.getTotalLength();
       if (length === 0) return;
 
-      const sleeperCount = 120;
+      const sleeperCount = 119;
       const positions: Omit<SleeperProps, 'progress' | 'pathRef'>[] = [];
 
-      for (let i = 0; i < sleeperCount -1; i++) {
+      for (let i = 0; i < sleeperCount; i++) {
         const distance = (i / (sleeperCount - 1)) * length;
         positions.push({ distance });
       }
