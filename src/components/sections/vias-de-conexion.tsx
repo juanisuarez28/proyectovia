@@ -66,23 +66,32 @@ const ViaItem = ({
     });
   };
 
+  const gradientClasses = "md:bg-gradient-to-r from-transparent via-background to-background";
+
   return (
     <motion.div
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex justify-center my-12 z-10 relative"
+        "flex justify-center my-12"
       )}
     >
         <div className={cn(
-            "flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl bg-background md:bg-transparent p-4 rounded-lg md:p-0",
+            "relative flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl bg-background md:bg-transparent p-4 rounded-lg md:p-0",
             isEven ? "md:flex-row" : "md:flex-row-reverse"
         )}>
-            <div className="relative w-full md:w-1/2 p-4 md:p-6 md:bg-gradient-to-r from-transparent via-background/80 to-background">
+            <div className={cn(
+                "relative z-10 w-full md:w-1/2 p-4 md:p-6",
+                isEven ? gradientClasses : ""
+              )}
+            >
                 <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
                 <p className="text-foreground/80 text-base">{renderDescription()}</p>
             </div>
-            <div className="w-full md:w-1/2 flex justify-center">
+             <div className={cn(
+                "relative z-10 w-full md:w-1/2 flex justify-center",
+                !isEven ? gradientClasses.replace('to-r','to-l') : ""
+             )}>
                 <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[200px] w-full">
                     <Image
                     src={image.imageUrl}
