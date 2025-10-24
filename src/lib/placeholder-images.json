@@ -2,19 +2,19 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "A group of people collaborating happily in a community.",
+      "description": "",
       "imageUrl": "/images/imagenhero1.jpg",
       "imageHint": "community gathering"
     },
     {
       "id": "hero-2",
-      "description": "A person extending a helping hand to another.",
+      "description": "",
       "imageUrl": "/images/imagenhero2.jpg",
       "imageHint": "helping hand"
     },
     {
       "id": "hero-3",
-      "description": "A beautiful sunrise over a Spanish landscape, symbolizing hope and new beginnings.",
+      "description": "",
       "imageUrl": "/images/imagenhero3.jpg",
       "imageHint": "spain landscape"
     }
