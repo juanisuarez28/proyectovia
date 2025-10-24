@@ -22,7 +22,7 @@ const WavyLine = () => (
 export default function Home() {
   return (
     <div className="bg-background text-foreground">
-      <div className="overflow-x-clip">
+      <div>
         <Header />
         <main>
           <Hero />
