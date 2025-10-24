@@ -203,9 +203,6 @@ export function ViasDeConexion() {
     <section id="vias-de-conexion" className="relative py-8 md:py-12 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
-        <h2 className="text-xl md:text-xl font-bold text-primary mb-8 text-center relative z-10">
-          Vías de Conexión
-        </h2>
         <div className="flex flex-col">
             {viasData.map((via, index) => (
                 <ViaItem
