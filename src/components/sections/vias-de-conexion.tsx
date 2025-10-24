@@ -52,21 +52,21 @@ const ViaItem = ({
     offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.5, 1], [0.3, 1]);
-  const y = useTransform(scrollYProgress, [0.5, 1], [30, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.35], [0.3, 1]);
+  const y = useTransform(scrollYProgress, [0, 0.35], [50, 0]);
 
   return (
     <motion.div
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-6 md:gap-10 my-10 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-6 md:gap-10 my-8 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
       <div className="w-full md:w-1/2">
-        <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">{title}</h3>
-        <p className="text-foreground/80 text-sm md:text-base">{description}</p>
+        <h3 className="text-xl md:text-xl font-bold text-primary mb-2">{title}</h3>
+        <p className="text-foreground/80 text-sm">{description}</p>
       </div>
       <div className="w-full md:w-1/2 relative aspect-video rounded-lg overflow-hidden shadow-lg">
         <Image
