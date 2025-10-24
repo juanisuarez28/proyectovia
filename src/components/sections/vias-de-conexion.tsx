@@ -59,23 +59,29 @@ const ViaItem = ({
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-2 my-4 z-10 relative",
-        isEven ? "md:flex-row" : "md:flex-row-reverse"
+        "flex justify-center my-8 z-10 relative"
       )}
     >
-      <div className="w-full md:w-1/2">
-        <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
-        <p className="text-foreground/80 text-base">{description}</p>
-      </div>
-      <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[200px] mx-auto">
-        <Image
-          src={image.imageUrl}
-          alt={image.description}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
-          data-ai-hint={image.imageHint}
-        />
+        <div className={cn(
+            "flex flex-col md:flex-row items-center gap-6 w-full max-w-3xl",
+            isEven ? "md:flex-row" : "md:flex-row-reverse"
+        )}>
+            <div className="w-full md:w-1/2">
+                <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
+                <p className="text-foreground/80 text-base">{description}</p>
+            </div>
+            <div className="w-full md:w-1/2 flex justify-center">
+                <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[200px] w-full">
+                    <Image
+                    src={image.imageUrl}
+                    alt={image.description}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    data-ai-hint={image.imageHint}
+                    />
+                </div>
+            </div>
       </div>
     </motion.div>
   );
@@ -85,31 +91,33 @@ interface SleeperProps {
     pathRef: React.RefObject<SVGPathElement>;
     distance: number;
     progress: MotionValue<number>;
-    angle: number;
 }
 
-const Sleeper: React.FC<SleeperProps> = ({ pathRef, distance, progress, angle }) => {
+const Sleeper = ({ pathRef, distance, progress }: SleeperProps) => {
     const path = pathRef.current;
     if (!path) return null;
-    
+
     const sleeperProgress = distance / path.getTotalLength();
-    const opacity = useTransform(progress, [sleeperProgress - 0.2, sleeperProgress], [0, 1]);
+    const opacity = useTransform(progress, [sleeperProgress - 0.1, sleeperProgress], [0, 1]);
     const point = path.getPointAtLength(distance);
+    const nextPoint = path.getPointAtLength(Math.min(distance + 1, path.getTotalLength()));
+    const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
 
     return (
         <motion.line
-            x1="-15"
+            x1="-22.5"
             y1="0"
-            x2="15"
+            x2="22.5"
             y2="0"
             transform={`translate(${point.x} ${point.y}) rotate(${angle + 90})`}
             stroke="hsl(var(--border))"
-            strokeWidth="2"
+            strokeWidth="3"
             strokeLinecap="round"
             style={{ opacity }}
         />
     );
 };
+
 
 const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
   const pathRef = React.useRef<SVGPathElement>(null);
@@ -121,16 +129,12 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
       const length = path.getTotalLength();
       if (length === 0) return;
 
-      const sleeperCount = 240;
+      const sleeperCount = 120;
       const positions: Omit<SleeperProps, 'progress' | 'pathRef'>[] = [];
 
       for (let i = 0; i < sleeperCount; i++) {
         const distance = (i / (sleeperCount - 1)) * length;
-        const point = path.getPointAtLength(distance);
-        const nextPoint = path.getPointAtLength(Math.min(distance + 1, length));
-        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
-        
-        positions.push({ distance, angle });
+        positions.push({ distance });
       }
       setSleepers(positions);
     }
@@ -142,7 +146,7 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
     <svg
       width="100%"
       height="100%"
-      viewBox="-40 -10 181 1828"
+      viewBox="-40 -10 262 1828"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-auto"
@@ -152,23 +156,23 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
         <path
             id="rail-path"
             ref={pathRef}
-            d="M51 1 C51 1, -20 273, 1 551 C20 829, 121 989, 101 1267 C81 1545, 51 1693, 51 1807"
+            d="M91.5 1 C91.5 1, -25.5 273, 46.5 551 C118.5 829, 233.5 989, 191.5 1267 C149.5 1545, 91.5 1693, 91.5 1807"
             fill="transparent"
             stroke="none"
         />
        </defs>
       
       <motion.path
-        d="M41 1 C41 1, -30 273, -9 551 C10 829, 111 989, 91 1267 C71 1545, 41 1693, 41 1807"
+        d="M76.5 1 C76.5 1, -40.5 273, 31.5 551 C103.5 829, 218.5 989, 176.5 1267 C134.5 1545, 76.5 1693, 76.5 1807"
         stroke="hsl(var(--border))"
-        strokeWidth="2"
+        strokeWidth="3"
         strokeLinecap="round"
         style={{ pathLength }}
       />
        <motion.path
-        d="M61 1 C61 1, -10 273, 11 551 C30 829, 131 989, 111 1267 C91 1545, 61 1693, 61 1807"
+        d="M106.5 1 C106.5 1, -10.5 273, 61.5 551 C133.5 829, 248.5 989, 206.5 1267 C164.5 1545, 106.5 1693, 106.5 1807"
         stroke="hsl(var(--border))"
-        strokeWidth="2"
+        strokeWidth="3"
         strokeLinecap="round"
         style={{ pathLength }}
       />
@@ -202,7 +206,7 @@ export function ViasDeConexion() {
         <h2 className="text-xl md:text-xl font-bold text-primary mb-8 text-center relative z-10">
           Vías de Conexión
         </h2>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
             {viasData.map((via, index) => (
                 <ViaItem
                 key={via.title}
