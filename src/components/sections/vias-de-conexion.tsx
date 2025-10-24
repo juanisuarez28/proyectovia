@@ -53,7 +53,7 @@ const ViaItem = ({
     offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0.4, 1]);
+  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
   const y = useTransform(scrollYProgress, [0.4, 0.6], [30, 0]);
 
   return (
@@ -69,7 +69,7 @@ const ViaItem = ({
         <h3 className="text-lg font-bold text-primary mb-2">{title}</h3>
         <p className="text-foreground/80 text-xs">{description}</p>
       </div>
-      <div className="w-full md:w-1/2 relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
+      <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden shadow-lg">
         <Image
           src={image.imageUrl}
           alt={image.description}
@@ -103,35 +103,35 @@ const Sleeper: React.FC<SleeperProps> = ({ x, y, angle, distance, totalLength, p
             x2="15"
             y2="0"
             transform={`translate(${x} ${y}) rotate(${angle})`}
+            stroke="hsl(var(--border))"
+            strokeWidth="2"
+            strokeLinecap="round"
             style={{ opacity }}
         />
     );
 };
 
-
-const WindingRoad = ({ progress }: { progress: any }) => {
+const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
   const pathRef = React.useRef<SVGPathElement>(null);
 
-  const [sleepers, setSleepers] = React.useState<any[]>([]);
-  const [totalLength, setTotalLength] = React.useState(0);
+  const [sleepers, setSleepers] = React.useState<Omit<SleeperProps, 'progress'>[]>([]);
 
   React.useLayoutEffect(() => {
     if (pathRef.current) {
       const path = pathRef.current;
       const length = path.getTotalLength();
-      setTotalLength(length);
       if (length === 0) return;
 
-      const sleeperCount = 40; 
-      const positions = [];
+      const sleeperCount = 80; // Increased sleeper count
+      const positions: Omit<SleeperProps, 'progress'>[] = [];
 
       for (let i = 0; i < sleeperCount; i++) {
         const distance = (i / (sleeperCount - 1)) * length;
         const point = path.getPointAtLength(distance);
         const nextPoint = path.getPointAtLength(Math.min(distance + 1, length));
-        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI) + 90;
         
-        positions.push({ x: point.x, y: point.y, angle: angle + 90, distance });
+        positions.push({ x: point.x, y: point.y, angle, distance, totalLength: length });
       }
       setSleepers(positions);
     }
@@ -147,6 +147,7 @@ const WindingRoad = ({ progress }: { progress: any }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-auto"
+      preserveAspectRatio="xMidYMid meet"
     >
       <defs>
         <path
@@ -173,15 +174,11 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         style={{ pathLength }}
       />
       
-      <g stroke="hsl(var(--border))" strokeWidth="2" strokeLinecap="round">
-        {sleepers.map((sleeper, i) => (
+      <g>
+        {sleepers.map((sleeperProps, i) => (
              <Sleeper
                 key={i}
-                x={sleeper.x}
-                y={sleeper.y}
-                angle={sleeper.angle}
-                distance={sleeper.distance}
-                totalLength={totalLength}
+                {...sleeperProps}
                 progress={progress}
             />
         ))}
