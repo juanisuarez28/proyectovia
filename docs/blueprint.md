@@ -1,4 +1,4 @@
-# **App Name**: ProyectoVia Landing
+# **App Name**: Proyecto Vía
 
 ## Core Features:
 

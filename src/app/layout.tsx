@@ -3,8 +3,8 @@ import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ProyectoVia Landing',
-  description: 'ORG de españa de una iglesia evangélica.',
+  title: 'Proyecto Vía',
+  description: 'ORG de españa.',
 };
 
 export default function RootLayout({
