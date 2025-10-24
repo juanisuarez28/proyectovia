@@ -7,7 +7,7 @@ const WavyLine = () => (
   <svg 
     viewBox="0 0 1000 200"
     preserveAspectRatio="none"
-    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200vw] h-[40vh] -z-10"
+    className="absolute top-[85vh] left-1/2 -translate-x-1/2 w-[200vw] h-[40vh] -z-10"
     stroke="#acd7e5"
     strokeWidth="35"
     fill="none"
@@ -26,7 +26,7 @@ export default function Home() {
         <Header />
         <main>
           <Hero />
-          <section id="viajemos-juntos" className="relative py-20 container text-center z-10 overflow-visible">
+          <section id="viajemos-juntos" className="relative py-20 container text-center z-10">
             <div className="relative">
               <h2 className="text-2xl md:text-3xl font-bold text-primary mb-6">Viajemos juntos por esta vía</h2>
               <div className="max-w-4xl mx-auto text-sm md:text-base space-y-4 text-foreground/80">
@@ -43,7 +43,6 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <WavyLine />
           </section>
           
           <ViasDeConexion />
@@ -54,6 +53,7 @@ export default function Home() {
           <section id="colabora" className="min-h-screen py-20 container" />
           <section id="contacto" className="min-h-screen py-20 container" />
         </main>
+        <WavyLine />
       </div>
     </div>
   );
