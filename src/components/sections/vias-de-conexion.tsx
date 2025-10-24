@@ -52,8 +52,8 @@ const ViaItem = ({
     offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.35], [0.3, 1]);
-  const y = useTransform(scrollYProgress, [0, 0.35], [50, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [0.3, 1]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
 
   return (
     <motion.div
@@ -102,6 +102,8 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         pathLength="1"
         style={{ pathLength: pathLength }}
       />
+      
+      {/* Rails */}
       <motion.path
         d="M192 1C192 1 10 173 10 451C10 729 192 889 192 1167C192 1445 10 1593 10 1807"
         stroke="hsl(var(--border))"
@@ -118,6 +120,32 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         pathLength="1"
         style={{ pathLength: pathLength }}
       />
+
+      {/* Sleepers */}
+      <defs>
+        <motion.path
+            id="rail-path"
+            d="M197 1C197 1 15 173 15 451C15 729 197 889 197 1167C197 1445 15 1593 15 1807"
+            fill="transparent"
+            stroke="none"
+            pathLength="1"
+            style={{ pathLength: pathLength }}
+        />
+      </defs>
+      
+      <g stroke="hsl(var(--border))" strokeWidth="4">
+        {[...Array(60)].map((_, i) => {
+            const startOffset = i / 60;
+            return (
+                <path key={i}>
+                    <animateMotion dur="1s" repeatCount="1" fill="freeze" calcMode="linear">
+                        <mpath href="#rail-path"/>
+                    </animateMotion>
+                    <set attributeName="d" to="M -180 0 L 0 0" begin={`${startOffset}s`} fill="freeze" />
+                </path>
+            )
+        })}
+      </g>
     </svg>
   );
 };
@@ -133,7 +161,7 @@ export function ViasDeConexion() {
     <section id="vias-de-conexion" className="relative py-16 md:py-20 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
-        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10 text-center relative z-10">
+        <h2 className="text-3xl md:text-3xl font-bold text-primary mb-10 text-center relative z-10">
           Vías de Conexión
         </h2>
         <div className="flex flex-col">

@@ -9,8 +9,8 @@ export default function Home() {
       <main>
         <Hero />
         <section className="py-20 container text-center">
-          <h2 className="text-4xl font-bold text-primary mb-6">Viajemos juntos por esta vía</h2>
-          <div className="max-w-4xl mx-auto text-lg space-y-4 text-foreground/80">
+          <h2 className="text-3xl font-bold text-primary mb-6">Viajemos juntos por esta vía</h2>
+          <div className="max-w-4xl mx-auto text-base space-y-4 text-foreground/80">
             <p>
               Cada vida es un viaje, una vía por la que transitar.
               Jesús nos invita a caminar junto a Él y a sumarnos a su vía.
