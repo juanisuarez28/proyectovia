@@ -17,6 +17,30 @@
       "description": "",
       "imageUrl": "/images/imagenhero3.jpg",
       "imageHint": "spain landscape"
+    },
+    {
+      "id": "conexion-1",
+      "description": "Una persona orando en la naturaleza.",
+      "imageUrl": "https://images.unsplash.com/photo-1473993702977-1706a7f23164?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBwcmF5aW5nfGVufDB8fHx8MTc2MTI3ODAyMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person praying"
+    },
+    {
+      "id": "conexion-2",
+      "description": "Un grupo de amigos riendo juntos.",
+      "imageUrl": "https://images.unsplash.com/photo-1536011820821-64b5688ed99b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmcmllbmRzJTIwY29tbXVuaXR5fGVufDB8fHx8MTc2MTI4Mjg3OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "friends community"
+    },
+    {
+      "id": "conexion-3",
+      "description": "Manos ayudando a alguien necesitado.",
+      "imageUrl": "https://images.unsplash.com/photo-1620841713108-18ad2b52d15c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxoZWxwaW5nJTIwaGFuZHN8ZW58MHx8fHwxNzYxMzA5OTM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "helping hands"
+    },
+    {
+      "id": "conexion-4",
+      "description": "Alguien pintando un mural en una pared.",
+      "imageUrl": "https://images.unsplash.com/photo-1647438027345-408897e83dc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhcnQlMjBjdWx0dXJlfGVufDB8fHx8MTc2MTMyODEwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "art culture"
     }
   ]
 }
