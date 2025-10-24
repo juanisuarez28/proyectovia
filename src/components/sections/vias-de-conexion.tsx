@@ -56,13 +56,13 @@ const ViaItem = ({
     <motion.div
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-8 md:gap-12 my-16 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-8 md:gap-12 my-12 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
       <div className="w-full md:w-1/2">
-        <h3 className="text-3xl font-bold text-primary mb-4">{title}</h3>
-        <p className="text-foreground/80 text-lg">{description}</p>
+        <h3 className="text-2xl font-bold text-primary mb-3">{title}</h3>
+        <p className="text-foreground/80 text-base">{description}</p>
       </div>
       <div className="w-full md:w-1/2 relative aspect-video rounded-lg overflow-hidden shadow-lg">
         <Image
@@ -128,21 +128,24 @@ export function ViasDeConexion() {
     <section id="vias-de-conexion" className="relative py-20 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
-        <h2 className="text-4xl font-bold text-primary mb-16 text-center relative z-10">
+        <h2 className="text-4xl font-bold text-primary mb-12 text-center relative z-10">
           Vías de Conexión
         </h2>
         {viasData.map((via, index) => {
           const totalItems = viasData.length;
           const segment = 1 / totalItems;
-          const start = index * segment + (segment * 0.1);
-          const end = start + (segment * 0.6);
+          const start = index * segment;
+          const end = start + segment;
+          const animationStart = start + segment * 0.1;
+          const animationEnd = end - segment * 0.1;
+
           return (
             <ViaItem
               key={via.title}
               {...via}
               index={index}
               progress={scrollYProgress}
-              range={[start, end]}
+              range={[animationStart, animationEnd]}
             />
           );
         })}
