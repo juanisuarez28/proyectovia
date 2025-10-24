@@ -53,7 +53,7 @@ const ViaItem = ({
     offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0.4, 1]);
   const y = useTransform(scrollYProgress, [0.4, 0.6], [30, 0]);
 
   return (
@@ -61,7 +61,7 @@ const ViaItem = ({
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-4 md:gap-8 my-4 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-2 md:gap-4 my-2 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
@@ -69,7 +69,7 @@ const ViaItem = ({
         <h3 className="text-lg font-bold text-primary mb-2">{title}</h3>
         <p className="text-foreground/80 text-xs">{description}</p>
       </div>
-      <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden shadow-lg">
+      <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[300px] mx-auto">
         <Image
           src={image.imageUrl}
           alt={image.description}
@@ -84,17 +84,18 @@ const ViaItem = ({
 };
 
 interface SleeperProps {
-    x: number;
-    y: number;
-    angle: number;
+    pathRef: React.RefObject<SVGPathElement>;
     distance: number;
-    totalLength: number;
     progress: MotionValue<number>;
+    angle: number;
 }
 
-const Sleeper: React.FC<SleeperProps> = ({ x, y, angle, distance, totalLength, progress }) => {
-    const sleeperProgress = distance / totalLength;
-    const opacity = useTransform(progress, [sleeperProgress - 0.1, sleeperProgress], [0, 1]);
+const Sleeper: React.FC<SleeperProps> = ({ pathRef, distance, progress, angle }) => {
+    const sleeperProgress = distance / (pathRef.current?.getTotalLength() || 1);
+    const opacity = useTransform(progress, [sleeperProgress - 0.2, sleeperProgress], [0, 1]);
+    const point = pathRef.current?.getPointAtLength(distance);
+    
+    if (!point) return null;
 
     return (
         <motion.line
@@ -102,7 +103,7 @@ const Sleeper: React.FC<SleeperProps> = ({ x, y, angle, distance, totalLength, p
             y1="0"
             x2="15"
             y2="0"
-            transform={`translate(${x} ${y}) rotate(${angle})`}
+            transform={`translate(${point.x} ${point.y}) rotate(${angle + 90})`}
             stroke="hsl(var(--border))"
             strokeWidth="2"
             strokeLinecap="round"
@@ -113,8 +114,7 @@ const Sleeper: React.FC<SleeperProps> = ({ x, y, angle, distance, totalLength, p
 
 const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
   const pathRef = React.useRef<SVGPathElement>(null);
-
-  const [sleepers, setSleepers] = React.useState<Omit<SleeperProps, 'progress'>[]>([]);
+  const [sleepers, setSleepers] = React.useState<Omit<SleeperProps, 'progress' | 'pathRef'>[]>([]);
 
   React.useLayoutEffect(() => {
     if (pathRef.current) {
@@ -122,16 +122,16 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
       const length = path.getTotalLength();
       if (length === 0) return;
 
-      const sleeperCount = 80; // Increased sleeper count
-      const positions: Omit<SleeperProps, 'progress'>[] = [];
+      const sleeperCount = 320;
+      const positions: Omit<SleeperProps, 'progress' | 'pathRef'>[] = [];
 
       for (let i = 0; i < sleeperCount; i++) {
         const distance = (i / (sleeperCount - 1)) * length;
         const point = path.getPointAtLength(distance);
         const nextPoint = path.getPointAtLength(Math.min(distance + 1, length));
-        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI) + 90;
+        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
         
-        positions.push({ x: point.x, y: point.y, angle, distance, totalLength: length });
+        positions.push({ distance, angle });
       }
       setSleepers(positions);
     }
@@ -143,7 +143,7 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
     <svg
       width="102"
       height="1808"
-      viewBox="0 0 102 1808"
+      viewBox="-10 -10 122 1828"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-auto"
@@ -153,21 +153,21 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
         <path
             id="rail-path"
             ref={pathRef}
-            d="M51 1 C51 1, 1 273, 1 551 C1 829, 101 989, 101 1267 C101 1545, 51 1693, 51 1807"
+            d="M51 1 C51 1, -20 273, 1 551 C20 829, 121 989, 101 1267 C81 1545, 51 1693, 51 1807"
             fill="transparent"
             stroke="none"
         />
        </defs>
       
       <motion.path
-        d="M41 1 C41 1, -9 273, -9 551 C-9 829, 91 989, 91 1267 C91 1545, 41 1693, 41 1807"
+        d="M41 1 C41 1, -30 273, -9 551 C10 829, 111 989, 91 1267 C71 1545, 41 1693, 41 1807"
         stroke="hsl(var(--border))"
         strokeWidth="2"
         strokeLinecap="round"
         style={{ pathLength }}
       />
        <motion.path
-        d="M61 1 C61 1, 11 273, 11 551 C11 829, 111 989, 111 1267 C111 1545, 61 1693, 61 1807"
+        d="M61 1 C61 1, -10 273, 11 551 C30 829, 131 989, 111 1267 C91 1545, 61 1693, 61 1807"
         stroke="hsl(var(--border))"
         strokeWidth="2"
         strokeLinecap="round"
@@ -178,6 +178,7 @@ const WindingRoad = ({ progress }: { progress: MotionValue<number> }) => {
         {sleepers.map((sleeperProps, i) => (
              <Sleeper
                 key={i}
+                pathRef={pathRef}
                 {...sleeperProps}
                 progress={progress}
             />
@@ -196,10 +197,10 @@ export function ViasDeConexion() {
   });
 
   return (
-    <section id="vias-de-conexion" className="relative py-12 md:py-16 overflow-hidden">
+    <section id="vias-de-conexion" className="relative py-8 md:py-12 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
-        <h2 className="text-xl md:text-xl font-bold text-primary mb-10 text-center relative z-10">
+        <h2 className="text-xl md:text-xl font-bold text-primary mb-8 text-center relative z-10">
           Vías de Conexión
         </h2>
         <div className="flex flex-col gap-8">
