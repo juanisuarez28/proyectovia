@@ -52,8 +52,8 @@ const ViaItem = ({
     offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
-  const y = useTransform(scrollYProgress, [0.4, 0.6], [50, 0]);
+  const opacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
+  const y = useTransform(scrollYProgress, [0.6, 0.8], [50, 0]);
 
   return (
     <motion.div
@@ -86,12 +86,16 @@ const WindingRoad = ({ progress }: { progress: any }) => {
   const pathLength = useTransform(progress, [0, 1], [0, 1]);
   const pathRef = React.useRef<SVGPathElement>(null);
 
-  const sleepers = React.useMemo(() => {
+  const [sleepers, setSleepers] = React.useState<any[]>([]);
+
+  React.useLayoutEffect(() => {
     // This effect can only run in the browser
-    if (typeof window === "undefined" || !pathRef.current) return [];
+    if (typeof window === "undefined" || !pathRef.current) return;
     
     const path = pathRef.current;
     const totalLength = path.getTotalLength();
+    if (totalLength === 0) return;
+
     const sleeperCount = 50; 
     const positions = [];
 
@@ -104,63 +108,56 @@ const WindingRoad = ({ progress }: { progress: any }) => {
       
       positions.push({ x: point.x, y: point.y, angle: angle, distance });
     }
-    return positions;
-  }, [pathRef.current]); // Dependency on pathRef.current ensures this recalculates when the ref is set
+    setSleepers(positions);
+  }, [pathRef.current]);
 
   return (
     <svg
-      width="202"
+      width="142"
       height="1808"
-      viewBox="0 0 202 1808"
+      viewBox="0 0 142 1808"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-auto"
     >
       <motion.path
-        d="M101 0V1808"
+        d="M71 0V1808"
         stroke="hsl(var(--secondary))"
-        strokeOpacity="0.3"
-        strokeWidth="100"
+        strokeOpacity="0.1"
+        strokeWidth="60"
         pathLength="1"
         style={{ pathLength: pathLength }}
       />
       
-      {/* Helper path for measurements - centered between rails */}
-       <defs>
+      <defs>
         <path
             id="rail-path"
             ref={pathRef}
-            d="M101 1C101 1 1,173 1,451C1,729 201,889 201,1167C201,1445 1,1593 1,1807"
-            transform="translate(0, 0) scale(1,1)"
+            d="M71 1 C71 1, 1 173, 1 451 C1 729, 141 889, 141 1167 C141 1445, 71 1593, 71 1807"
             fill="transparent"
             stroke="none"
         />
        </defs>
       
-      {/* Rails */}
       <motion.path
-        d="M91 1C91 1 -9,173 -9,451C-9,729 191,889 191,1167C191,1445 -9,1593 -9,1807"
+        d="M61 1 C61 1, -9 173, -9 451 C-9 729, 131 889, 131 1167 C131 1445, 61 1593, 61 1807"
         stroke="hsl(var(--border))"
         strokeWidth="4"
         strokeLinecap="round"
         pathLength="1"
-        transform="translate(10, 0) scale(1,1)"
         style={{ pathLength: pathLength }}
       />
        <motion.path
-        d="M111 1C111 1 21,173 21,451C21,729 221,889 221,1167C221,1445 21,1593 21,1807"
+        d="M81 1 C81 1, 21 173, 21 451 C21 729, 151 889, 151 1167 C151 1445, 81 1593, 81 1807"
         stroke="hsl(var(--border))"
         strokeWidth="4"
         strokeLinecap="round"
         pathLength="1"
-        transform="translate(-10, 0) scale(1,1)"
         style={{ pathLength: pathLength }}
       />
 
-      {/* Sleepers */}
       <g stroke="hsl(var(--border))" strokeWidth="4" strokeLinecap="round">
         {sleepers.map((sleeper, i) => {
-          // Animate opacity based on overall path progress
           const sleeperProgress = sleeper.distance / (pathRef.current?.getTotalLength() || 1);
           const opacity = useTransform(progress, [sleeperProgress - 0.2, sleeperProgress], [0, 1]);
 
