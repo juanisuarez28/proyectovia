@@ -53,7 +53,7 @@ const ViaItem = ({
     offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0.4, 1]);
   const y = useTransform(scrollYProgress, [0.4, 0.6], [30, 0]);
 
   return (
@@ -110,7 +110,6 @@ const Sleeper: React.FC<SleeperProps> = ({ x, y, angle, distance, totalLength, p
 
 
 const WindingRoad = ({ progress }: { progress: any }) => {
-  const pathLength = useTransform(progress, [0, 1], [0, 1]);
   const pathRef = React.useRef<SVGPathElement>(null);
 
   const [sleepers, setSleepers] = React.useState<any[]>([]);
@@ -138,6 +137,8 @@ const WindingRoad = ({ progress }: { progress: any }) => {
     }
   }, []);
 
+  const pathLength = useTransform(progress, [0, 1], [0, 1]);
+
   return (
     <svg
       width="102"
@@ -162,16 +163,14 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         stroke="hsl(var(--border))"
         strokeWidth="2"
         strokeLinecap="round"
-        pathLength="1"
-        style={{ pathLength: pathLength }}
+        style={{ pathLength }}
       />
        <motion.path
         d="M61 1 C61 1, 11 273, 11 551 C11 829, 111 989, 111 1267 C111 1545, 61 1693, 61 1807"
         stroke="hsl(var(--border))"
         strokeWidth="2"
         strokeLinecap="round"
-        pathLength="1"
-        style={{ pathLength: pathLength }}
+        style={{ pathLength }}
       />
       
       <g stroke="hsl(var(--border))" strokeWidth="2" strokeLinecap="round">
