@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import * as React from "react";
@@ -61,7 +59,7 @@ const ViaItem = ({
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-4 my-0 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-2 my-4 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
