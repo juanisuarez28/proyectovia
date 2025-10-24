@@ -49,10 +49,10 @@ const ViaItem = ({
   const ref = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: ["start end", "end center"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0.3, 1]);
+  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
   const y = useTransform(scrollYProgress, [0.4, 0.6], [50, 0]);
 
   return (
@@ -68,7 +68,7 @@ const ViaItem = ({
         <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
         <p className="text-foreground/80 text-sm">{description}</p>
       </div>
-      <div className="w-full md:w-1/2 relative aspect-video rounded-lg overflow-hidden shadow-lg">
+      <div className="w-full md:w-1/2 relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
         <Image
           src={image.imageUrl}
           alt={image.description}
@@ -130,7 +130,7 @@ const WindingRoad = ({ progress }: { progress: any }) => {
         <path
             id="rail-path"
             ref={pathRef}
-            d="M101 1C101 1 101 173 101 451C101 729 101 889 101 1167C101 1445 101 1593 101 1807"
+            d="M101 1C101 1 1,173 1,451C1,729 201,889 201,1167C201,1445 1,1593 1,1807"
             transform="translate(0, 0) scale(1,1)"
             fill="transparent"
             stroke="none"
@@ -139,19 +139,21 @@ const WindingRoad = ({ progress }: { progress: any }) => {
       
       {/* Rails */}
       <motion.path
-        d="M10 1C10 1 192 173 192 451C192 729 10 889 10 1167C10 1445 192 1593 192 1807"
+        d="M91 1C91 1 -9,173 -9,451C-9,729 191,889 191,1167C191,1445 -9,1593 -9,1807"
         stroke="hsl(var(--border))"
         strokeWidth="4"
         strokeLinecap="round"
         pathLength="1"
+        transform="translate(10, 0) scale(1,1)"
         style={{ pathLength: pathLength }}
       />
        <motion.path
-        d="M20 1C20 1 202 173 202 451C202 729 20 889 20 1167C20 1445 202 1593 202 1807"
+        d="M111 1C111 1 21,173 21,451C21,729 221,889 221,1167C221,1445 21,1593 21,1807"
         stroke="hsl(var(--border))"
         strokeWidth="4"
         strokeLinecap="round"
         pathLength="1"
+        transform="translate(-10, 0) scale(1,1)"
         style={{ pathLength: pathLength }}
       />
 
@@ -159,14 +161,14 @@ const WindingRoad = ({ progress }: { progress: any }) => {
       <g stroke="hsl(var(--border))" strokeWidth="4" strokeLinecap="round">
         {sleepers.map((sleeper, i) => {
           // Animate opacity based on overall path progress
-          const sleeperProgress = (i + 1) / sleepers.length;
-          const opacity = useTransform(progress, [sleeperProgress - 0.1, sleeperProgress], [0, 1]);
+          const sleeperProgress = sleeper.distance / (pathRef.current?.getTotalLength() || 1);
+          const opacity = useTransform(progress, [sleeperProgress - 0.2, sleeperProgress], [0, 1]);
 
           return (
             <motion.line
               key={i}
-              x1="-96" y1="0"
-              x2="96" y2="0"
+              x1="-20" y1="0"
+              x2="20" y2="0"
               transform={`translate(${sleeper.x} ${sleeper.y}) rotate(${sleeper.angle})`}
               style={{ opacity }}
             />
@@ -182,11 +184,11 @@ export function ViasDeConexion() {
   const targetRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ["start end", "end start"],
+    offset: ["start end", "end end"],
   });
 
   return (
-    <section id="vias-de-conexion" className="relative py-16 md:py-20 overflow-hidden">
+    <section id="vias-de-conexion" className="relative py-12 md:py-16 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
         <h2 className="text-xl md:text-2xl font-bold text-primary mb-10 text-center relative z-10">
