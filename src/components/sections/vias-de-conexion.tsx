@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -38,31 +39,34 @@ const ViaItem = ({
   description,
   image,
   index,
-  progress,
-  range,
 }: {
   title: string;
   description: string;
   image: any;
   index: number;
-  progress: any;
-  range: [number, number];
 }) => {
-  const opacity = useTransform(progress, range, [0, 1]);
-  const y = useTransform(progress, range, [50, 0]);
   const isEven = index % 2 === 0;
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end center"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0.5, 1], [0.3, 1]);
+  const y = useTransform(scrollYProgress, [0.5, 1], [30, 0]);
 
   return (
     <motion.div
+      ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex flex-col md:flex-row items-center gap-8 md:gap-12 my-12 z-10 relative",
+        "flex flex-col md:flex-row items-center gap-6 md:gap-10 my-10 z-10 relative",
         isEven ? "md:flex-row" : "md:flex-row-reverse"
       )}
     >
       <div className="w-full md:w-1/2">
-        <h3 className="text-2xl font-bold text-primary mb-3">{title}</h3>
-        <p className="text-foreground/80 text-base">{description}</p>
+        <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">{title}</h3>
+        <p className="text-foreground/80 text-sm md:text-base">{description}</p>
       </div>
       <div className="w-full md:w-1/2 relative aspect-video rounded-lg overflow-hidden shadow-lg">
         <Image
@@ -70,6 +74,7 @@ const ViaItem = ({
           alt={image.description}
           fill
           className="object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
           data-ai-hint={image.imageHint}
         />
       </div>
@@ -125,30 +130,21 @@ export function ViasDeConexion() {
   });
 
   return (
-    <section id="vias-de-conexion" className="relative py-20 overflow-hidden">
+    <section id="vias-de-conexion" className="relative py-16 md:py-20 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
       <div className="container" ref={targetRef}>
-        <h2 className="text-4xl font-bold text-primary mb-12 text-center relative z-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10 text-center relative z-10">
           Vías de Conexión
         </h2>
-        {viasData.map((via, index) => {
-          const totalItems = viasData.length;
-          const segment = 1 / totalItems;
-          const start = index * segment;
-          const end = start + segment;
-          const animationStart = start + segment * 0.1;
-          const animationEnd = end - segment * 0.1;
-
-          return (
-            <ViaItem
-              key={via.title}
-              {...via}
-              index={index}
-              progress={scrollYProgress}
-              range={[animationStart, animationEnd]}
-            />
-          );
-        })}
+        <div className="flex flex-col">
+            {viasData.map((via, index) => (
+                <ViaItem
+                key={via.title}
+                {...via}
+                index={index}
+                />
+            ))}
+        </div>
       </div>
     </section>
   );

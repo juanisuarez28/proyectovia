@@ -4,7 +4,7 @@ import Image from 'next/image';
 export function Logo() {
   return (
     <Link href="/" className="flex items-center space-x-2" aria-label="Volver a la página de inicio de ProyectoVia">
-      <Image src="/logo.png" alt="ProyectoVia Logo" width={150} height={40} />
+      <Image src="/logo.png" alt="ProyectoVia Logo" width={120} height={32} className="w-auto h-8" />
     </Link>
   );
 }
