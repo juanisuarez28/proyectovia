@@ -49,7 +49,7 @@ const ViaItem = ({
   range: [number, number];
 }) => {
   const opacity = useTransform(progress, range, [0, 1]);
-  const y = useTransform(progress, range, [100, 0]);
+  const y = useTransform(progress, range, [50, 0]);
   const isEven = index % 2 === 0;
 
   return (
@@ -132,9 +132,12 @@ export function ViasDeConexion() {
           Vías de Conexión
         </h2>
         {viasData.map((via, index) => {
-          const segment = 1 / viasData.length;
+          const totalItems = viasData.length;
+          const segment = 1 / totalItems;
+          // Adjust the start and end points to make the animation more responsive.
+          // The animation for an item will now happen in a smaller scroll window.
           const start = index * segment;
-          const end = start + segment;
+          const end = start + segment * 0.8; // Use 80% of the segment for the animation
           return (
             <ViaItem
               key={via.title}
