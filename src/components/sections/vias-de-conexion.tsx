@@ -73,24 +73,26 @@ const ViaItem = ({
       ref={ref}
       style={{ opacity, y }}
       className={cn(
-        "flex justify-center my-12"
+        "relative flex justify-center my-12 z-10"
       )}
     >
         <div className={cn(
             "relative flex flex-col md:flex-row items-center gap-2 w-full max-w-4xl bg-background md:bg-transparent p-4 rounded-lg md:p-0",
             isEven ? "md:flex-row" : "md:flex-row-reverse"
         )}>
+            {/* Gradient Overlay for Desktop */}
+            <div className="absolute inset-0 z-10 hidden md:block bg-gradient-to-r from-transparent via-background to-background" />
+
+            {/* Content */}
             <div className={cn(
-                "relative z-10 w-full md:w-1/2 p-4 md:p-6",
-                isEven ? gradientClasses : ""
+                "relative z-20 w-full md:w-1/2 p-4 md:p-6"
               )}
             >
                 <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
                 <p className="text-foreground/80 text-base">{renderDescription()}</p>
             </div>
              <div className={cn(
-                "relative z-10 w-full md:w-1/2 flex justify-center",
-                !isEven ? gradientClasses.replace('to-r','to-l') : ""
+                "relative z-20 w-full md:w-1/2 flex justify-center"
              )}>
                 <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg max-w-[200px] w-full">
                     <Image
@@ -234,7 +236,7 @@ export function ViasDeConexion() {
   return (
     <section id="vias-de-conexion" className="relative py-8 md:py-12 overflow-hidden">
        <WindingRoad progress={scrollYProgress} />
-      <div className="container" ref={targetRef}>
+      <div className="container relative" ref={targetRef}>
         <div className="flex flex-col">
             {viasData.map((via, index) => (
                 <ViaItem
