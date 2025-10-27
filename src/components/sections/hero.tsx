@@ -51,7 +51,7 @@ export function Hero() {
                   priority={index === 0}
                   data-ai-hint={image.imageHint}
                 />
-                <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
+                <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
               </div>
             </CarouselItem>
           ))}
@@ -61,7 +61,7 @@ export function Hero() {
       </Carousel>
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-48 h-auto">
+        <div className="w-80 h-auto">
           <Logo />
         </div>
       </div>
