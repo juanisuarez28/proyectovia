@@ -12,7 +12,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Logo } from "../layout/logo";
+import { LogoHero } from "../layout/logohero";
 
 const heroImages = PlaceHolderImages.filter(img => img.id.startsWith("hero-"));
 
@@ -60,9 +60,9 @@ export function Hero() {
         <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
       </Carousel>
 
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-80 h-auto">
-          <Logo />
+      <div className="absolute inset-0 flex items-start justify-center pt-20">
+        <div className="w-80">
+          <LogoHero />
         </div>
       </div>
     </section>
