@@ -19,39 +19,42 @@ export function Hero() {
   );
 
   return (
-    <section className="relative w-full h-[80vh] bg-background" aria-label="Carrusel de imágenes de bienvenida">
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/40 to-transparent" />
-      <Carousel
-        className="w-full h-full"
-        opts={{ loop: true }}
-        plugins={[plugin.current]}
-      >
-        <CarouselContent className="h-full">
-          {heroImages.map((image, index) => (
-            <CarouselItem key={index} className="h-full">
-              <div className="relative w-full h-[80vh]">
-                <Image
-                  src={image.imageUrl}
-                  alt={image.description}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  data-ai-hint={image.imageHint}
-                />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-      <div className="absolute inset-0 flex items-center justify-center pb-60 z-20">
-        <div className="w-80">
-          <LogoHero />
+    <section className="w-full h-[80vh] bg-background" aria-label="Carrusel de imágenes de bienvenida">
+      <div className="relative h-full w-full">
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/40 to-transparent" />
+        <Carousel
+          className="w-full h-full"
+          opts={{ loop: true }}
+          plugins={[plugin.current]}
+        >
+          <CarouselContent className="h-full">
+            {heroImages.map((image, index) => (
+              <CarouselItem key={index} className="h-full">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={image.imageUrl}
+                    alt={image.description}
+                    fill
+                    className="object-cover"
+                    priority={index === 0}
+                    data-ai-hint={image.imageHint}
+                  />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+        <div className="absolute inset-0 flex items-center justify-center pb-60 z-20">
+          <div className="w-80">
+            <LogoHero />
+          </div>
         </div>
-      </div>
-      <div className="absolute bottom-0 left-0 w-full z-10">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-          <path d="M0 60C360 -20 1080 140 1440 60" stroke="hsl(var(--primary))" strokeWidth="40" />
-          <path d="M0 60C360 -20 1080 140 1440 60V120H0V60Z" className="fill-background" />        </svg>
+        <div className="absolute bottom-0 left-0 w-full z-10">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+            <path d="M0 60C360 -20 1080 140 1440 60" stroke="hsl(var(--primary))" strokeWidth="40" />
+            <path d="M0 60C360 -20 1080 140 1440 60V120H0V60Z" className="fill-background" />
+          </svg>
+        </div>
       </div>
     </section>
   );
