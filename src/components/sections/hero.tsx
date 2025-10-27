@@ -19,13 +19,13 @@ export function Hero() {
   );
 
   return (
-    <section className="relative w-full h-[80vh] bg-background" aria-label="Carrusel de imágenes de bienvenida">
+    <section className="relative w-full bg-background" aria-label="Carrusel de imágenes de bienvenida">
       <Carousel
-        className="w-full h-full"
+        className="w-full"
         opts={{ loop: true }}
         plugins={[plugin.current]}
       >
-        <CarouselContent className="h-full">
+        <CarouselContent className="h-[80vh]">
           {heroImages.map((image, index) => (
             <CarouselItem key={index} className="h-full">
               <div className="relative w-full h-full">
