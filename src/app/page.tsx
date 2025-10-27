@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <div className="bg-background text-foreground">
-      {isHeaderVisible && <Header isVisible={isHeaderVisible} />}
+      <Header isVisible={isHeaderVisible} />
       <main>
         <Hero />
         <section id="viajemos-juntos" className="relative py-20 container text-center z-10">

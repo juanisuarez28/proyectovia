@@ -21,7 +21,7 @@ const navLinks = [
 export function Header({ isVisible }: { isVisible: boolean }) {
   return (
     <header className={cn(
-      "sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300",
+      "fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300 ease-in-out",
       isVisible ? "translate-y-0" : "-translate-y-full"
     )}>
       <div className="container flex h-14 max-w-7xl items-center justify-between">
