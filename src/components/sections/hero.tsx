@@ -51,8 +51,7 @@ export function Hero() {
       <div className="absolute bottom-0 left-0 w-full z-10">
         <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
           <path d="M0 60C360 -20 1080 140 1440 60" stroke="hsl(var(--primary))" strokeWidth="40" />
-          <path d="M0 60C360 -20 1080 140 1440 60V120H0V60Z" className="fill-background" />
-        </svg>
+          <path d="M0 60C360 -20 1080 140 1440 60V120H0V60Z" className="fill-background" />        </svg>
       </div>
     </section>
   );
