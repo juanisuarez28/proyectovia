@@ -37,33 +37,35 @@ export function Hero() {
   }, [api]);
 
   return (
-    <section className="relative w-full h-[80vh] pt-14" aria-label="Carrusel de imágenes de bienvenida">
-      <Carousel setApi={setApi} className="w-full h-full" opts={{loop: true}}>
-        <CarouselContent className="h-full">
-          {heroImages.map((image, index) => (
-            <CarouselItem key={index} className="h-full">
-              <div className="relative w-full h-full">
-                <Image
-                  src={image.imageUrl}
-                  alt={image.description}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  data-ai-hint={image.imageHint}
-                />
-                <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
+    <section className="relative w-full h-[80vh] bg-background" aria-label="Carrusel de imágenes de bienvenida">
+      <div className="relative h-full w-full">
+        <Carousel setApi={setApi} className="w-full h-full" opts={{loop: true}}>
+          <CarouselContent className="h-full">
+            {heroImages.map((image, index) => (
+              <CarouselItem key={index} className="h-full">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={image.imageUrl}
+                    alt={image.description}
+                    fill
+                    className="object-cover"
+                    priority={index === 0}
+                    data-ai-hint={image.imageHint}
+                  />
+                  <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="absolute inset-0 flex items-start justify-center pt-20 z-20">
+              <div className="w-80">
+                  <LogoHero />
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <div className="absolute inset-0 flex items-start justify-center pt-20 z-20">
-            <div className="w-80">
-                <LogoHero />
-            </div>
-        </div>
-        <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
-        <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
-      </Carousel>
+          </div>
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
+        </Carousel>
+      </div>
     </section>
   );
 }

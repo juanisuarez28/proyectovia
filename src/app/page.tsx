@@ -1,4 +1,5 @@
 
+
 import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/sections/hero";
 import { ViasDeConexion } from "@/components/sections/vias-de-conexion";
@@ -8,7 +9,7 @@ export default function Home() {
   return (
     <div className="bg-background text-foreground">
       <Header />
-      <main>
+      <main className="pt-14">
         <Hero />
         <section id="viajemos-juntos" className="relative py-20 container text-center z-10">
           <div className="relative">
