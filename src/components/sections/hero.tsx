@@ -26,10 +26,10 @@ export function Hero() {
         opts={{ loop: true }}
         plugins={[plugin.current]}
       >
-        <CarouselContent className="h-full">
+        <CarouselContent>
           {heroImages.map((image, index) => (
-            <CarouselItem key={index} className="h-full">
-              <div className="relative w-full h-full">
+            <CarouselItem key={index}>
+              <div className="relative w-full h-[80vh]">
                 <Image
                   src={image.imageUrl}
                   alt={image.description}
