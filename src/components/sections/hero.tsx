@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -11,6 +12,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { Logo } from "../layout/logo";
 
 const heroImages = PlaceHolderImages.filter(img => img.id.startsWith("hero-"));
 
@@ -57,6 +59,12 @@ export function Hero() {
         <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
         <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
       </Carousel>
+
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-48 h-auto">
+          <Logo />
+        </div>
+      </div>
     </section>
   );
 }
