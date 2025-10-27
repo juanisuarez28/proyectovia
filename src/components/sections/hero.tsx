@@ -37,12 +37,12 @@ export function Hero() {
   }, [api]);
 
   return (
-    <section className="relative w-full h-[70vh]" aria-label="Carrusel de imágenes de bienvenida">
+    <section className="relative w-full h-screen" aria-label="Carrusel de imágenes de bienvenida">
       <Carousel setApi={setApi} className="w-full h-full" opts={{loop: true}}>
         <CarouselContent>
           {heroImages.map((image, index) => (
             <CarouselItem key={index}>
-              <div className="relative w-full h-[70vh]">
+              <div className="relative w-full h-screen">
                 <Image
                   src={image.imageUrl}
                   alt={image.description}
@@ -51,7 +51,7 @@ export function Hero() {
                   priority={index === 0}
                   data-ai-hint={image.imageHint}
                 />
-                <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
+                <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
               </div>
             </CarouselItem>
           ))}
