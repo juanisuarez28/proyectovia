@@ -3,12 +3,11 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -17,29 +16,19 @@ import { LogoHero } from "../layout/logohero";
 const heroImages = PlaceHolderImages.filter(img => img.id.startsWith("hero-"));
 
 export function Hero() {
-  const [api, setApi] = React.useState<CarouselApi>();
-
-  React.useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    const interval = setInterval(() => {
-      api.scrollNext();
-    }, 5000); // Change image every 5 seconds
-
-    // Reset timer on manual interaction
-    api.on("select", () => {
-      clearInterval(interval);
-    });
-
-    return () => clearInterval(interval);
-  }, [api]);
-
   return (
     <section className="relative w-full h-[80vh] bg-background pt-14" aria-label="Carrusel de imágenes de bienvenida">
       <div className="relative h-full w-full">
-        <Carousel setApi={setApi} className="w-full h-full" opts={{loop: true}}>
+        <Carousel 
+          className="w-full h-full" 
+          opts={{loop: true}}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+              stopOnInteraction: false,
+            }),
+          ]}
+        >
           <CarouselContent>
             {heroImages.map((image, index) => (
               <CarouselItem key={index}>
@@ -62,8 +51,6 @@ export function Hero() {
                   <LogoHero />
               </div>
           </div>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
         </Carousel>
       </div>
     </section>
