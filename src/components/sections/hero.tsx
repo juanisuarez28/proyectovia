@@ -56,6 +56,11 @@ export function Hero() {
             </CarouselItem>
           ))}
         </CarouselContent>
+        <div className="absolute inset-0 flex items-start justify-center pt-20 z-20">
+            <div className="w-80">
+                <LogoHero />
+            </div>
+        </div>
         <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
         <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
       </Carousel>
