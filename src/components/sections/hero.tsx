@@ -61,7 +61,7 @@ export function Hero() {
       </Carousel>
 
       <div className="absolute inset-0 flex items-start justify-center pt-20">
-        <div className="w-80">
+        <div className="w-100">
           <LogoHero />
         </div>
       </div>
