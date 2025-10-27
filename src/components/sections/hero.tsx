@@ -37,13 +37,13 @@ export function Hero() {
   }, [api]);
 
   return (
-    <section className="relative w-full h-[80vh] bg-background" aria-label="Carrusel de imágenes de bienvenida">
+    <section className="relative w-full h-[80vh] bg-background pt-14" aria-label="Carrusel de imágenes de bienvenida">
       <div className="relative h-full w-full">
         <Carousel setApi={setApi} className="w-full h-full" opts={{loop: true}}>
-          <CarouselContent className="h-full">
+          <CarouselContent>
             {heroImages.map((image, index) => (
-              <CarouselItem key={index} className="h-full">
-                <div className="relative w-full h-full">
+              <CarouselItem key={index}>
+                <div className="relative w-full h-[calc(80vh-3.5rem)]">
                   <Image
                     src={image.imageUrl}
                     alt={image.description}
