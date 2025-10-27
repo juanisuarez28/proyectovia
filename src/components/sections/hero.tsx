@@ -14,23 +14,22 @@ import { LogoHero } from "../layout/logohero";
 const heroImages = PlaceHolderImages.filter(img => img.id.startsWith("hero-"));
 
 export function Hero() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  );
+
   return (
     <section className="relative w-full h-[80vh] bg-background" aria-label="Carrusel de imágenes de bienvenida">
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/40 to-transparent" />
       <Carousel
         className="w-full h-full"
         opts={{ loop: true }}
-        plugins={[
-          Autoplay({
-            delay: 5000,
-            stopOnInteraction: false,
-          }),
-        ]}
+        plugins={[plugin.current]}
       >
-        <CarouselContent>
+        <CarouselContent className="h-full">
           {heroImages.map((image, index) => (
-            <CarouselItem key={index}>
-              <div className="relative w-full h-[80vh]">
+            <CarouselItem key={index} className="h-full">
+              <div className="relative w-full h-full">
                 <Image
                   src={image.imageUrl}
                   alt={image.description}
@@ -51,7 +50,7 @@ export function Hero() {
       </div>
       <div className="absolute bottom-0 left-0 w-full z-10">
         <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-          <path d="M0 48.2166C360 -21.7834 1080 118.217 1440 48.2166V120H0V48.2166Z" className="fill-background" />
+          <path d="M0 60C360 -20 1080 140 1440 60V120H0V60Z" className="fill-background" />
         </svg>
       </div>
     </section>
