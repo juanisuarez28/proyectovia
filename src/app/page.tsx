@@ -1,31 +1,13 @@
 
-"use client";
-
-import * as React from "react";
 import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/sections/hero";
 import { ViasDeConexion } from "@/components/sections/vias-de-conexion";
 
 
 export default function Home() {
-  const [isHeaderVisible, setIsHeaderVisible] = React.useState(false);
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsHeaderVisible(true);
-      } else {
-        setIsHeaderVisible(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className="bg-background text-foreground">
-      <Header isVisible={isHeaderVisible} />
+      <Header />
       <main>
         <Hero />
         <section id="viajemos-juntos" className="relative py-20 container text-center z-10">

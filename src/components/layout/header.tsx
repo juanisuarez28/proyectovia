@@ -3,12 +3,10 @@
 
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Logo } from "@/components/layout/logo";
-import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "#vias-de-conexion", label: "Vías de conexión" },
@@ -18,12 +16,9 @@ const navLinks = [
   { href: "#contacto", label: "Contacto" },
 ];
 
-export function Header({ isVisible }: { isVisible: boolean }) {
+export function Header() {
   return (
-    <header className={cn(
-      "fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300 ease-in-out",
-      isVisible ? "translate-y-0" : "-translate-y-full"
-    )}>
+    <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-7xl items-center justify-between">
         <Logo />
         

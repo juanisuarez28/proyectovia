@@ -37,12 +37,12 @@ export function Hero() {
   }, [api]);
 
   return (
-    <section className="relative w-full h-[80vh]" aria-label="Carrusel de imágenes de bienvenida">
+    <section className="relative w-full h-[80vh] pt-14" aria-label="Carrusel de imágenes de bienvenida">
       <Carousel setApi={setApi} className="w-full h-full" opts={{loop: true}}>
-        <CarouselContent>
+        <CarouselContent className="h-full">
           {heroImages.map((image, index) => (
-            <CarouselItem key={index}>
-              <div className="relative w-full h-[80vh]">
+            <CarouselItem key={index} className="h-full">
+              <div className="relative w-full h-full">
                 <Image
                   src={image.imageUrl}
                   alt={image.description}
@@ -59,12 +59,6 @@ export function Hero() {
         <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
         <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:inline-flex" />
       </Carousel>
-
-      <div className="absolute inset-0 flex items-start justify-center pt-20">
-        <div className="w-80">
-          <LogoHero />
-        </div>
-      </div>
     </section>
   );
 }
