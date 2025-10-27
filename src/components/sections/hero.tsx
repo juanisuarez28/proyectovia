@@ -19,7 +19,7 @@ export function Hero() {
   );
 
   return (
-    <section className="relative w-full h-[80vh] bg-background -mt-14" aria-label="Carrusel de imágenes de bienvenida">
+    <section className="relative w-full h-[80vh] bg-background" aria-label="Carrusel de imágenes de bienvenida">
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/40 to-transparent" />
       <Carousel
         className="w-full h-full"
@@ -43,7 +43,7 @@ export function Hero() {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="absolute inset-0 flex items-start justify-center pt-20 z-20">
+      <div className="absolute inset-0 flex items-center justify-center pt-20 z-20">
         <div className="w-80">
           <LogoHero />
         </div>
