@@ -49,8 +49,8 @@ export function Hero() {
         </div>
       </div>
       <div className="absolute bottom-0 left-0 w-full z-10">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-          <path d="M0 60C360 -20 1080 140 1440 60V120H0V60Z" className="fill-primary" />
+        <svg viewBox="0 0 1440 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+          <path d="M0 80C360 -60 1080 220 1440 40V160H0V80Z" className="fill-primary" />
         </svg>
       </div>
     </section>
