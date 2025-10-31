@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 export function Colabora() {
   return (
-    <section id="colabora" className="bg-primary text-primary-foreground py-20">
+    <section id="colabora" className="bg-primary text-primary-foreground py-16">
       <div className="container text-center">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">
           Colabora

@@ -5,6 +5,8 @@ import { Hero } from "@/components/sections/hero";
 import { QuienesSomos } from "@/components/sections/quienes-somos";
 import { ViasDeConexion } from "@/components/sections/vias-de-conexion";
 import { Colabora } from "@/components/sections/colabora";
+import { Recursos } from "@/components/sections/recursos";
+
 
 
 export default function Home() {
@@ -36,8 +38,8 @@ export default function Home() {
         
         <QuienesSomos />
 
-        <section id="recursos" className="py-20 container" />
-        
+        <Recursos />
+
         <Colabora />
         
         <section id="contacto" className="min-h-screen py-20 container" />
