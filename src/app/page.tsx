@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/sections/hero";
 import { QuienesSomos } from "@/components/sections/quienes-somos";
 import { ViasDeConexion } from "@/components/sections/vias-de-conexion";
+import { Recursos } from "@/components/sections/recursos";
 
 
 export default function Home() {
@@ -35,8 +36,8 @@ export default function Home() {
         
         <QuienesSomos />
 
-        {/* Placeholder sections for navigation */}
-        <section id="recursos" className="min-h-screen py-20 container" />
+        <Recursos />
+        
         <section id="colabora" className="min-h-screen py-20 container" />
         <section id="contacto" className="min-h-screen py-20 container" />
       </main>

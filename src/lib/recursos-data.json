@@ -1,0 +1,37 @@
+
+{
+  "recursos": [
+    {
+      "id": "recurso-1",
+      "title": "Devocional: Un Nuevo Comienzo",
+      "description": "Una reflexión profunda sobre cómo cada día es una oportunidad para renovar nuestra fe y caminar más cerca de Jesús.",
+      "imageUrl": "https://picsum.photos/seed/recurso1/600/400",
+      "imageHint": "sunrise book",
+      "url": "#"
+    },
+    {
+      "id": "recurso-2",
+      "title": "Video: La Oración que Transforma",
+      "description": "Descubre el poder de la oración y cómo puede cambiar tu vida y la de quienes te rodean. Un mensaje práctico y alentador.",
+      "imageUrl": "https://picsum.photos/seed/recurso2/600/400",
+      "imageHint": "video play",
+      "url": "#"
+    },
+    {
+      "id": "recurso-3",
+      "title": "Artículo: Viviendo en Comunidad",
+      "description": "La importancia de la comunidad cristiana. Aprende a construir relaciones significativas que te apoyen en tu caminar espiritual.",
+      "imageUrl": "https://picsum.photos/seed/recurso3/600/400",
+      "imageHint": "community gathering",
+      "url": "#"
+    },
+    {
+      "id": "recurso-4",
+      "title": "Guía Práctica: Compartiendo tu Fe",
+      "description": "Herramientas y consejos para compartir el evangelio de una manera natural y efectiva en tu día a día.",
+      "imageUrl": "https://picsum.photos/seed/recurso4/600/400",
+      "imageHint": "two people talking",
+      "url": "#"
+    }
+  ]
+}

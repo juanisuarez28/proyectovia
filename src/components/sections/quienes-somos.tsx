@@ -1,8 +1,5 @@
-"use client";
 
-import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export function QuienesSomos() {
@@ -10,13 +7,7 @@ export function QuienesSomos() {
 
   return (
     <section id="quienes-somos" className="py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        viewport={{ once: true, amount: 0.3 }} // se activa cuando el 30% del elemento entra en viewport
-        className="flex flex-col md:flex-row justify-end items-start relative mx-auto md:max-w-6xl"
-      >
+      <div className="flex flex-col md:flex-row justify-end items-start relative mx-auto md:max-w-6xl">
         {/* Texto (div de color) */}
         <div className="relative z-10 w-[85%] md:w-3/4 bg-secondary rounded-lg px-6 pt-12 pb-32 md:pb-24 md:px-16 md:pr-20 text-center md:text-left shadow-lg mx-auto">
           <h2 className="text-lg md:text-2xl font-bold text-primary mb-6">
@@ -71,7 +62,7 @@ export function QuienesSomos() {
             </div>
           </div>
         )}
-      </motion.div>
+      </div>
     </section>
   );
 }
