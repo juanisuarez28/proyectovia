@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/sections/hero";
 import { QuienesSomos } from "@/components/sections/quienes-somos";
 import { ViasDeConexion } from "@/components/sections/vias-de-conexion";
-import { Recursos } from "@/components/sections/recursos";
+import { Colabora } from "@/components/sections/colabora";
 
 
 export default function Home() {
@@ -36,9 +36,10 @@ export default function Home() {
         
         <QuienesSomos />
 
-        <Recursos />
+        <section id="recursos" className="py-20 container" />
         
-        <section id="colabora" className="min-h-screen py-20 container" />
+        <Colabora />
+        
         <section id="contacto" className="min-h-screen py-20 container" />
       </main>
     </div>
