@@ -22,8 +22,8 @@ import { motion } from "framer-motion";
 
 export function Recursos() {
   return (
-    <section id="recursos" className="py-20 container">
-      <div className="max-w-xl mb-12">
+    <section id="recursos" className="pt-32 pb-20 container">
+      <div className="max-w-4xl mb-12">
         <h2 className="text-2xl md:text-3xl font-bold text-primary mb-4">
           Recursos
         </h2>
@@ -39,13 +39,13 @@ export function Recursos() {
         opts={{
           align: "start",
         }}
-        className="w-full"
+        className="w-full max-w-4xl"
       >
         <CarouselContent>
           {RecursosData.map((recurso: Recurso) => (
             <CarouselItem
               key={recurso.id}
-              className="md:basis-1/2 lg:basis-1/3"
+              className="md:basis-1/2 lg:basis-[30%]"
             >
               <div className="p-1">
                 <motion.div
