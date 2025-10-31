@@ -1,11 +1,11 @@
-
-
 import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/sections/hero";
 import { QuienesSomos } from "@/components/sections/quienes-somos";
 import { ViasDeConexion } from "@/components/sections/vias-de-conexion";
 import { Colabora } from "@/components/sections/colabora";
 import { Recursos } from "@/components/sections/recursos";
+import { Contacto } from "@/components/sections/contacto";
+import { Footer } from "@/components/layout/footer";
 
 
 
@@ -42,8 +42,9 @@ export default function Home() {
 
         <Colabora />
         
-        <section id="contacto" className="min-h-screen py-20 container" />
+        <Contacto />
       </main>
+      <Footer />
     </div>
   );
 }
