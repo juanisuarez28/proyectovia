@@ -13,8 +13,8 @@ export function Colabora() {
           Colabora
         </h2>
         <p className="max-w-3xl mx-auto mb-8 text-sm md:text-base text-primary-foreground/80">
-          Nos encantaría que formes parte de lo que Dios está haciendo a través de Proyecto Vía. 
-          En esta sección encontrarás las diferentes maneras en que puedes apoyar el ministerio, 
+          Nos encantaría que formes parte de lo que Dios está haciendo a través de <strong>Proyecto Vía</strong>. 
+          En esta sección encontrarás las diferentes maneras en que puedes <strong>apoyar el ministerio</strong>, 
           ya sea mediante tus <strong>oraciones</strong>, <strong>aportaciones financieras</strong> o <strong>difusión del proyecto</strong>.
         </p>
         <Button 
