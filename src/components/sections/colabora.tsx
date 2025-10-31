@@ -4,7 +4,10 @@ import { Button } from '@/components/ui/button';
 
 export function Colabora() {
   return (
-    <section id="colabora" className="bg-primary text-primary-foreground py-12">
+    <section 
+      id="colabora" 
+      className="py-12 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-primary via-primary to-secondary text-primary-foreground"
+    >
       <div className="container text-center">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">
           Colabora
