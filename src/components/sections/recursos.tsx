@@ -22,7 +22,7 @@ import { motion } from "framer-motion";
 
 export function Recursos() {
   return (
-    <section id="recursos" className="pt-32 pb-20 container">
+    <section id="recursos" className="pt-48 md:pt-24 pb-20 container">
       <div className="max-w-4xl mb-12 mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold text-primary mb-4">
           Recursos
