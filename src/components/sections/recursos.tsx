@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -29,9 +28,13 @@ export function Recursos() {
         </h2>
         <p className="text-foreground/80 text-sm md:text-base">
           En esta sección encontrarás materiales que te inspirarán a caminar con
-          Jesús de una manera más plena. Podrás acceder a devocionales
-          escritos, videos y otros recursos prácticos para tu vida espiritual y
-          tu servicio.
+          Jesús de una manera más plena. Podrás acceder a{" "}
+          <strong className="font-bold text-primary">
+            devocionales escritos
+          </strong>
+          , <strong className="font-bold text-primary">videos</strong> y otros{" "}
+          <strong className="font-bold text-primary">recursos prácticos</strong>{" "}
+          para tu vida espiritual y tu servicio.
         </p>
       </div>
 
