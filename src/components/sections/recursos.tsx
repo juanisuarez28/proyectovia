@@ -23,7 +23,7 @@ import { motion } from "framer-motion";
 export function Recursos() {
   return (
     <section id="recursos" className="pt-48 md:pt-24 pb-20 container animate-fadeInUp">
-      <div className="max-w-4xl mb-12 mx-auto">
+      <div className="max-w-4xl mx-auto mb-12">
         <h2 className="text-2xl md:text-3xl font-bold text-primary mb-4">
           Recursos
         </h2>
@@ -39,7 +39,11 @@ export function Recursos() {
         </p>
       </div>
 
-      <Carousel
+      <div className="text-center mt-16">
+        <h3 className="text-xl italic text-muted-foreground">Próximamente...</h3>
+      </div>
+
+      {/* <Carousel
         opts={{
           align: "start",
         }}
@@ -87,7 +91,7 @@ export function Recursos() {
         </CarouselContent>
         <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2" />
         <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2" />
-      </Carousel>
+      </Carousel> */}
     </section>
   );
 }
