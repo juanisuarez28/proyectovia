@@ -9,11 +9,11 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/s
 import { Logo } from "@/components/layout/logo";
 
 const navLinks = [
-  { href: "#vias-de-conexion", label: "Vías de conexión" },
-  { href: "#quienes-somos", label: "Quiénes somos" },
-  { href: "#recursos", label: "Recursos" },
-  { href: "#colabora", label: "Colabora" },
-  { href: "#contacto", label: "Contacto" },
+  { href: "/#vias-de-conexion", label: "Vías de conexión" },
+  { href: "/#quienes-somos", label: "Quiénes somos" },
+  { href: "/#recursos", label: "Recursos" },
+  { href: "/#colabora", label: "Colabora" },
+  { href: "/#contacto", label: "Contacto" },
 ];
 
 export function Header() {
