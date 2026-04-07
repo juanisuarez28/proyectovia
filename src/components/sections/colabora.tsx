@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 
 export function Colabora() {
   return (
-    <section 
-      id="colabora" 
+    <section
+      id="colabora"
       className="py-12 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accent via-primary to-secondary text-primary-foreground"
     >
       <div className="container text-center">
@@ -13,13 +13,16 @@ export function Colabora() {
           Colabora
         </h2>
         <p className="max-w-3xl mx-auto mb-8 text-sm md:text-base text-primary-foreground/80">
-          Nos encantaría que formes parte de lo que Dios está haciendo a través de <strong>Proyecto Vía</strong>. 
-          En esta sección encontrarás las diferentes maneras en que puedes <strong>apoyar el ministerio</strong>, 
+          Nos encantaría que formes parte de lo que Dios está haciendo a través de <strong>Proyecto Vía</strong>.
+          En esta sección encontrarás las diferentes maneras en que puedes <strong>apoyar el ministerio</strong>,
           ya sea mediante tus <strong>oraciones</strong>, <strong>aportaciones financieras</strong> o <strong>difusión del proyecto</strong>.
         </p>
-        <Button 
-          asChild 
-          size="lg" 
+        <p className="mb-2 text-lg font-medium opacity-90">
+          <strong>Haz tu donación de 50 euros aquí</strong>
+        </p>
+        <Button
+          asChild
+          size="lg"
           className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 font-bold"
         >
           <Link href="https://give.iphc.org/project/mediterranean-national-missionaries" target="_blank" rel="noopener noreferrer">
