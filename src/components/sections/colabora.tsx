@@ -17,8 +17,10 @@ export function Colabora() {
           En esta sección encontrarás las diferentes maneras en que puedes <strong>apoyar el ministerio</strong>,
           ya sea mediante tus <strong>oraciones</strong>, <strong>aportaciones financieras</strong> o <strong>difusión del proyecto</strong>.
         </p>
-        <p className="mb-2 text-lg font-medium opacity-90">
-          <strong>Haz tu donación de 50 euros aquí</strong>
+        <p className="mb-2 text-lg opacity-90">
+          <strong>Haz tu colaboración aquí:</strong><br />
+          IBAN: ES2700490125162410392127<br />
+          Nombre: Proyecto VIA
         </p>
         <Button
           asChild
