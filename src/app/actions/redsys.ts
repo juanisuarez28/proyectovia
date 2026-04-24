@@ -3,10 +3,10 @@
 import { createRedsysSignature, encodeParameters, generateOrderId } from "@/lib/redsys";
 
 export async function getRedsysParameters(amount: number) {
-  const secretKey = process.env.REDSYS_SECRET_KEY;
-  const merchantCode = process.env.REDSYS_FUC;
-  const terminal = process.env.REDSYS_TERMINAL || "1";
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const secretKey = process.env.REDSYS_SECRET_KEY?.trim();
+  const merchantCode = process.env.REDSYS_FUC?.trim();
+  const terminal = (process.env.REDSYS_TERMINAL || "1").trim();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim();
 
   if (!secretKey || !merchantCode) {
     console.error("Redsys configuration is missing in environment variables");
