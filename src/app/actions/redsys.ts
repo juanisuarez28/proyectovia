@@ -22,8 +22,14 @@ export async function getRedsysParameters(amount: number) {
   const amountInCents = Math.round(amount * 100).toString();
   const orderId = generateOrderId();
 
-  console.log("Generando parámetros Redsys para importe:", amount, "en céntimos:", amountInCents);
-  console.log("FUC:", merchantCode, "Terminal:", terminal);
+  console.log("--- DEBUG REDSYS ---");
+  console.log("Importe:", amount, "en céntimos:", amountInCents);
+  console.log("FUC:", merchantCode, `(Longitud: ${merchantCode?.length})`);
+  console.log("Terminal:", terminal, `(Longitud: ${terminal?.length})`);
+  console.log("URL Base:", baseUrl);
+  console.log("Entorno:", process.env.REDSYS_ENVIRONMENT);
+  console.log("SecretKey presente:", !!secretKey, `(Longitud: ${secretKey?.length})`);
+  console.log("--------------------");
 
   const merchantParameters = {
     Ds_Merchant_Amount: amountInCents,
@@ -42,8 +48,8 @@ export async function getRedsysParameters(amount: number) {
   return {
     signature,
     paramsBase64,
-    url: process.env.REDSYS_ENVIRONMENT === "production" 
-      ? "https://sis.redsys.es/sis/realizarPago" 
+    url: process.env.REDSYS_ENVIRONMENT === "production"
+      ? "https://sis.redsys.es/sis/realizarPago"
       : "https://sis-t.redsys.es:25443/sis/realizarPago"
   };
 }
