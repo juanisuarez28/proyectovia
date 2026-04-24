@@ -31,10 +31,9 @@ export async function getRedsysParameters(amount: number) {
     Ds_Merchant_MerchantCode: merchantCode,
     Ds_Merchant_Currency: "978", // EUR
     Ds_Merchant_TransactionType: "0", // Autorización
-    Ds_Merchant_Terminal: terminal,
+    Ds_Merchant_Terminal: terminal.padStart(3, '0'), // Asegurar 3 dígitos (ej: 001)
     Ds_Merchant_UrlOK: `${baseUrl}/donacion/exito`,
     Ds_Merchant_UrlKO: `${baseUrl}/donacion/error`,
-    Ds_Merchant_MerchantName: "Proyecto VIA",
   };
 
   const paramsBase64 = encodeParameters(merchantParameters);
