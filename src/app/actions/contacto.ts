@@ -16,7 +16,7 @@ export async function sendContactEmail(data: ContactFormData) {
   try {
     await resend.emails.send({
       from: `Contacto desde Sitio Web <${process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"}>`,
-      to: "juanisua3@gmail.com",
+      to: "jjuanignaciosuarez@gmail.com",
       subject: `Nuevo contacto de ${nombre}`,
       replyTo: email,
       html: `
