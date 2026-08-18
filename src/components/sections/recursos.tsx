@@ -16,8 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Recurso } from "@/lib/recursos";
 import { motion } from "framer-motion";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { getRecursosAction } from "@/app/actions/recursos";
 
 export function Recursos() {
   const [recursos, setRecursos] = React.useState<Recurso[]>([]);
@@ -26,15 +25,11 @@ export function Recursos() {
   React.useEffect(() => {
     async function fetchRecursos() {
       try {
-        const q = query(collection(db, "recursos"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Recurso[];
+        const result = await getRecursosAction();
+        const data = result.data as Recurso[];
         
         // Si no hay recursos en Firebase, usamos el local como fallback o mostramos vacío
-        if (data.length === 0) {
+        if (!result.success || data.length === 0) {
           const { RecursosData } = await import("@/lib/recursos");
           setRecursos(RecursosData);
         } else {
