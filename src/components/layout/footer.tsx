@@ -28,7 +28,7 @@ export function Footer() {
               Alentando a otros a sumarse a la vía de Jesús y acompañando en el camino.
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <Link href="#" aria-label="Instagram">
+              <Link href="https://www.instagram.com/proyectovia.blog/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <Instagram className="h-5 w-5 hover:text-primary transition-colors" />
               </Link>
               <Link href="#" aria-label="Facebook">

@@ -19,7 +19,7 @@ export function Contacto() {
       <ContactoForm />
 
       <div className="flex justify-center gap-6 mt-12">
-        <Link href="#" aria-label="Instagram">
+        <Link href="https://www.instagram.com/proyectovia.blog/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
           <Instagram className="h-6 w-6 text-primary hover:text-primary/80 transition-colors" />
         </Link>
         <Link href="#" aria-label="Facebook">

@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
+import { DonacionModal } from "@/components/sections/donacion-modal";
 
 export default function DonacionExito() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
-      <div className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-2xl shadow-2xl max-w-lg border border-border">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center relative">
+      <DonacionModal />
+      
+      <div className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-2xl shadow-2xl max-w-lg border border-border relative z-0">
         <div className="flex justify-center mb-6">
           <CheckCircle2 className="w-20 h-20 text-green-500" />
         </div>
