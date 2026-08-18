@@ -7,11 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { Recurso } from "@/lib/recursos";
 import { Trash2, Pencil, X } from "lucide-react";
 import Image from "next/image";
+import { getRecursosAction } from "@/app/actions/recursos";
 
 export function AdminDashboard() {
   const [loading, setLoading] = useState(false);
@@ -19,20 +18,18 @@ export function AdminDashboard() {
   const [recursos, setRecursos] = useState<Recurso[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // Fetch resources in real-time
-  useEffect(() => {
-    const q = query(collection(db, "recursos"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Recurso[];
-      setRecursos(data);
-    }, (error) => {
-      console.error("Error fetching resources:", error);
-    });
+  async function loadRecursos() {
+    const result = await getRecursosAction();
+    if (result.success) {
+      setRecursos(result.data as Recurso[]);
+    } else {
+      console.error("Error fetching resources from server.");
+    }
+  }
 
-    return () => unsubscribe();
+  // Fetch resources on mount
+  useEffect(() => {
+    loadRecursos();
   }, []);
 
   async function handleAddResource(e: React.FormEvent<HTMLFormElement>) {
@@ -48,6 +45,7 @@ export function AdminDashboard() {
     } else {
       setMessage("✅ Recurso agregado correctamente.");
       (e.target as HTMLFormElement).reset();
+      await loadRecursos();
     }
     setLoading(false);
   }
@@ -65,6 +63,7 @@ export function AdminDashboard() {
     } else {
       setMessage("✅ Recurso editado correctamente.");
       setEditingId(null);
+      await loadRecursos();
     }
     setLoading(false);
   }
@@ -76,6 +75,8 @@ export function AdminDashboard() {
     const res = await deleteResource(id);
     if (res?.error) {
       alert(`Error al borrar: ${res.error}`);
+    } else {
+      await loadRecursos();
     }
     setLoading(false);
   }
