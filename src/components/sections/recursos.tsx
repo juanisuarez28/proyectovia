@@ -27,9 +27,12 @@ export function Recursos() {
       try {
         const result = await getRecursosAction();
         const data = result.data as Recurso[];
-        
-        // Si no hay recursos en Firebase, usamos el local como fallback o mostramos vacío
-        if (!result.success || data.length === 0) {
+
+        // Solo usamos el JSON local si Firestore falla (por ejemplo, si faltan
+        // las variables de entorno). Si responde bien, mandan sus datos: asi el
+        // carrusel refleja lo que se carga desde /acceso/editar.
+        if (!result.success) {
+          console.error("Error leyendo recursos de Firestore:", result.error);
           const { RecursosData } = await import("@/lib/recursos");
           setRecursos(RecursosData);
         } else {

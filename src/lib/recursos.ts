@@ -4,9 +4,11 @@ import data from './recursos-data.json';
 export type Recurso = {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   imageUrl: string;
-  imageHint: string;
+  imageHint?: string;
+  publicId?: string;
+  createdAt?: string;
   url: string;
 };
 

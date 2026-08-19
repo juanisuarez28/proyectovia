@@ -2,12 +2,22 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import fs from "fs/promises";
-import path from "path";
-import cloudinary from "@/lib/cloudinary";
+import cloudinary, {
+  CLOUDINARY_FOLDER,
+  assertCloudinaryConfig,
+  publicIdFromUrl,
+} from "@/lib/cloudinary";
+import { assertFirebaseConfig } from "@/lib/firebase";
 
 const ADMIN_USER = "caminativia";
 const ADMIN_PASS = "proyectovia123-@";
+
+async function requireSession() {
+  const adminSession = (await cookies()).get("admin_session");
+  if (!adminSession?.value) {
+    throw new Error("No autorizado");
+  }
+}
 
 export async function login(formData: FormData) {
   const user = formData.get("username");
@@ -31,45 +41,62 @@ export async function logout() {
   redirect("/acceso/editar");
 }
 
-export async function addResource(formData: FormData) {
-  const adminSession = (await cookies()).get("admin_session");
-  if (!adminSession?.value) {
-    throw new Error("No autorizado");
-  }
-
-  const url = formData.get("url") as string;
-  const title = formData.get("title") as string;
-  const image = formData.get("image") as File;
-
-  if (!url || !image || image.size === 0) {
-    return { error: "Todos los campos obligatorios son requeridos" };
-  }
-
+/**
+ * Devuelve una firma para que el navegador suba la imagen DIRECTO a Cloudinary.
+ * Asi el archivo nunca pasa por la Server Action: en Vercel el body de una
+ * request esta limitado a ~4.5 MB y una imagen en base64 lo supera facil,
+ * dejando el formulario colgado en "Subiendo...".
+ */
+export async function getUploadSignature() {
   try {
-    // 1. Subir imagen a Cloudinary
-    const arrayBuffer = await image.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    await requireSession();
+    assertCloudinaryConfig();
 
-    // Convertimos buffer a string base64 para Cloudinary
-    const base64Image = `data:${image.type};base64,${buffer.toString("base64")}`;
-    
-    const uploadResponse = await cloudinary.uploader.upload(base64Image, {
-      folder: "proyectovia/recursos",
-    });
+    const timestamp = Math.round(Date.now() / 1000);
+    const signature = cloudinary.utils.api_sign_request(
+      { timestamp, folder: CLOUDINARY_FOLDER },
+      process.env.CLOUDINARY_API_SECRET as string
+    );
 
-    const imageUrl = uploadResponse.secure_url;
+    return {
+      success: true as const,
+      cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME as string,
+      apiKey: process.env.CLOUDINARY_API_KEY as string,
+      folder: CLOUDINARY_FOLDER,
+      timestamp,
+      signature,
+    };
+  } catch (error: any) {
+    console.error("Error generando firma de Cloudinary:", error);
+    return { success: false as const, error: error?.message || "Error al preparar la subida" };
+  }
+}
 
-    // 2. Guardar en Firebase Firestore
+export async function addResource(formData: FormData) {
+  try {
+    await requireSession();
+    assertFirebaseConfig();
+
+    const url = formData.get("url") as string;
+    const title = formData.get("title") as string;
+    const imageUrl = formData.get("imageUrl") as string;
+    const publicId = (formData.get("publicId") as string) || "";
+
+    if (!url || !imageUrl) {
+      return { error: "Todos los campos obligatorios son requeridos" };
+    }
+
     const { db } = await import("@/lib/firebase");
     const { collection, addDoc } = await import("firebase/firestore");
 
     const newRecurso = {
       title: title || "",
       description: "",
-      imageUrl: imageUrl,
+      imageUrl,
+      publicId,
       imageHint: "Recurso",
-      url: url,
-      createdAt: new Date().toISOString()
+      url,
+      createdAt: new Date().toISOString(),
     };
 
     await addDoc(collection(db, "recursos"), newRecurso);
@@ -82,32 +109,33 @@ export async function addResource(formData: FormData) {
 }
 
 export async function deleteResource(id: string) {
-  const adminSession = (await cookies()).get("admin_session");
-  if (!adminSession?.value) {
-    throw new Error("No autorizado");
-  }
-
   try {
+    await requireSession();
+    assertFirebaseConfig();
+
     const { db } = await import("@/lib/firebase");
     const { doc, getDoc, deleteDoc } = await import("firebase/firestore");
-    
-    // Obtener la URL para borrar de Cloudinary
+
     const docRef = doc(db, "recursos", id);
     const docSnap = await getDoc(docRef);
-    
+
+    // Borramos primero el documento: si Cloudinary falla, al menos el recurso
+    // desaparece de la web (y no dejamos el panel en un estado inconsistente).
+    await deleteDoc(docRef);
+
     if (docSnap.exists()) {
       const data = docSnap.data();
-      if (data.imageUrl && data.imageUrl.includes("res.cloudinary.com")) {
-        // Extraer public_id: asume formato .../upload/v1234/carpeta/archivo.ext
-        const matches = data.imageUrl.match(/\/v\d+\/(.+)\.[a-zA-Z0-9]+$/);
-        if (matches && matches[1]) {
-          const publicId = matches[1];
+      const publicId = data.publicId || publicIdFromUrl(data.imageUrl);
+      if (publicId) {
+        try {
+          assertCloudinaryConfig();
           await cloudinary.uploader.destroy(publicId);
+        } catch (cloudError) {
+          console.error("No se pudo borrar la imagen de Cloudinary:", cloudError);
         }
       }
     }
 
-    await deleteDoc(docRef);
     return { success: true };
   } catch (error: any) {
     console.error("Error borrando recurso:", error);
@@ -116,51 +144,49 @@ export async function deleteResource(id: string) {
 }
 
 export async function updateResource(formData: FormData) {
-  const adminSession = (await cookies()).get("admin_session");
-  if (!adminSession?.value) {
-    throw new Error("No autorizado");
-  }
-
-  const id = formData.get("id") as string;
-  const url = formData.get("url") as string;
-  const title = formData.get("title") as string;
-  const image = formData.get("image") as File | null;
-
-  if (!id || !url) {
-    return { error: "Faltan campos requeridos" };
-  }
-
   try {
+    await requireSession();
+    assertFirebaseConfig();
+
+    const id = formData.get("id") as string;
+    const url = formData.get("url") as string;
+    const title = formData.get("title") as string;
+    const imageUrl = formData.get("imageUrl") as string | null;
+    const publicId = (formData.get("publicId") as string) || "";
+
+    if (!id || !url) {
+      return { error: "Faltan campos requeridos" };
+    }
+
     const { db } = await import("@/lib/firebase");
     const { doc, getDoc, updateDoc } = await import("firebase/firestore");
 
     const docRef = doc(db, "recursos", id);
-    const updateData: any = { url, title: title || "" };
+    const updateData: Record<string, any> = { url, title: title || "" };
 
-    // Si subió una imagen nueva, la actualizamos
-    if (image && image.size > 0) {
-      // 1. Borrar la imagen vieja de Cloudinary
+    // Si subio una imagen nueva (ya esta en Cloudinary), actualizamos y
+    // borramos la anterior.
+    if (imageUrl) {
       const docSnap = await getDoc(docRef);
+      updateData.imageUrl = imageUrl;
+      updateData.publicId = publicId;
+
+      await updateDoc(docRef, updateData);
+
       if (docSnap.exists()) {
         const oldData = docSnap.data();
-        if (oldData.imageUrl && oldData.imageUrl.includes("res.cloudinary.com")) {
-          const matches = oldData.imageUrl.match(/\/v\d+\/(.+)\.[a-zA-Z0-9]+$/);
-          if (matches && matches[1]) {
-            await cloudinary.uploader.destroy(matches[1]);
+        const oldPublicId = oldData.publicId || publicIdFromUrl(oldData.imageUrl);
+        if (oldPublicId && oldPublicId !== publicId) {
+          try {
+            assertCloudinaryConfig();
+            await cloudinary.uploader.destroy(oldPublicId);
+          } catch (cloudError) {
+            console.error("No se pudo borrar la imagen anterior de Cloudinary:", cloudError);
           }
         }
       }
 
-      // 2. Subir la nueva imagen
-      const arrayBuffer = await image.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      const base64Image = `data:${image.type};base64,${buffer.toString("base64")}`;
-      
-      const uploadResponse = await cloudinary.uploader.upload(base64Image, {
-        folder: "proyectovia/recursos",
-      });
-
-      updateData.imageUrl = uploadResponse.secure_url;
+      return { success: true };
     }
 
     await updateDoc(docRef, updateData);
